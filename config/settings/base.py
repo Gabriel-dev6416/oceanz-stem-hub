@@ -18,6 +18,8 @@ CSRF_TRUSTED_ORIGINS = env.list("DJANGO_CSRF_TRUSTED_ORIGINS", default=[])
 ADMIN_URL = env("DJANGO_ADMIN_URL").strip("/")
 
 INSTALLED_APPS = [
+    # accounts first: its createsuperuser command replaces the one in django.contrib.auth.
+    "apps.accounts",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -26,7 +28,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "csp",
     "apps.core",
-    "apps.accounts",
 ]
 
 MIDDLEWARE = [
