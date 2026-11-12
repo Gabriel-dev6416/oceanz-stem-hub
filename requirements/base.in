@@ -9,3 +9,4 @@ redis
 whitenoise
 
 django-csp
+django-ratelimit

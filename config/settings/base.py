@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "csp",
     "apps.core",
+    "apps.messaging",
 ]
 
 MIDDLEWARE = [
@@ -105,17 +106,20 @@ STORAGES = {
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
 }
 
+TURNSTILE_ORIGIN = "https://challenges.cloudflare.com"
+
 # Strict Content Security Policy (SEC-TLS-01): everything is served from our own origin.
-# Approved third-party origins (Zoom SDK, Paystack, Turnstile) are added in the release
-# that introduces them.
+# Approved third-party origins are added with the feature that needs them: Cloudflare
+# Turnstile (forms) and Google Maps (contact page) now; Zoom SDK and Paystack later.
 CONTENT_SECURITY_POLICY = {
     "DIRECTIVES": {
         "default-src": [SELF],
-        "script-src": [SELF],
+        "script-src": [SELF, TURNSTILE_ORIGIN],
         "style-src": [SELF],
         "img-src": [SELF, "data:"],
         "font-src": [SELF],
         "connect-src": [SELF],
+        "frame-src": [TURNSTILE_ORIGIN, "https://www.google.com"],
         "form-action": [SELF],
         "frame-ancestors": [NONE],
         "base-uri": [SELF],
@@ -125,6 +129,22 @@ CONTENT_SECURITY_POLICY = {
 
 # Camera and microphone stay off everywhere until the classroom pages (R3) enable them.
 PERMISSIONS_POLICY = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+
+# Email. Development prints messages to the console; production sets EMAIL_URL to the
+# transactional email provider, e.g. smtp+tls://user:password@smtp-relay.brevo.com:587
+vars().update(env.email_url("EMAIL_URL", default="consolemail://"))
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="OCEANZ STEM HUB <no-reply@localhost>")
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+# Cloudflare Turnstile (SEC-ABU-02). The defaults are Cloudflare's published test keys, which
+# always pass; production must set real keys (enforced by the deploy check in apps.core).
+TURNSTILE_SITE_KEY = env("TURNSTILE_SITE_KEY", default="1x00000000000000000000AA")
+TURNSTILE_SECRET_KEY = env("TURNSTILE_SECRET_KEY", default="1x0000000000000000000000000000000AA")
+
+# Rate limits (SEC-ABU-01). Behind a proxy, set RATELIMIT_IP_META_KEY to the header that
+# carries the client address, e.g. HTTP_CF_CONNECTING_IP behind Cloudflare.
+RATELIMIT_IP_META_KEY = env("RATELIMIT_IP_META_KEY", default="REMOTE_ADDR")
+ENQUIRY_RATE = env("ENQUIRY_RATE", default="5/h")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

@@ -1,0 +1,15 @@
+{% autoescape off %}Hello {{ enquiry.name }},
+
+Thank you for contacting OCEANZ STEM HUB. We have received your enquiry and our team will get back to you soon.
+
+Reference: {{ enquiry.reference }}
+Topic: {{ enquiry.get_enquiry_type_display }}
+{% if enquiry.child_class %}Class: {{ enquiry.get_child_class_display }}
+{% endif %}{% if enquiry.tutoring_option %}Tutoring option: {{ enquiry.get_tutoring_option_display }}
+{% endif %}{% if enquiry.delivery_format %}Delivery format: {{ enquiry.get_delivery_format_display }}
+{% endif %}
+Please quote the reference if you contact us about this enquiry. For a faster answer, chat with us on WhatsApp: {{ site.whatsapp_primary }}.
+
+OCEANZ STEM HUB
+STEM Education / M.S.C
+{% endautoescape %}

@@ -91,4 +91,14 @@ docker push <dockerhub-user>/oceanz-stem-hub:<version>
 - Pre-deploy command: `python manage.py migrate --noinput`
 - Health check path: `/health/`
 - Required environment: `DJANGO_SECRET_KEY`, `DJANGO_ALLOWED_HOSTS`,
-  `DJANGO_CSRF_TRUSTED_ORIGINS`, `DJANGO_ADMIN_URL`, `DATABASE_URL`, `REDIS_URL`.
+  `DJANGO_CSRF_TRUSTED_ORIGINS`, `DJANGO_ADMIN_URL`, `DATABASE_URL`, `REDIS_URL`,
+  `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` (Cloudflare Turnstile),
+  `EMAIL_URL` (e.g. `smtp+tls://user:password@smtp-relay.brevo.com:587`), `DEFAULT_FROM_EMAIL`,
+  and `RATELIMIT_IP_META_KEY` (e.g. `HTTP_CF_CONNECTING_IP` behind Cloudflare).
+- `python manage.py check --deploy` fails while Turnstile uses test keys or email is not
+  configured, so a misconfigured release is caught before it goes live.
+
+## Local email and Turnstile
+
+Locally, emails are printed in the web container log (`docker compose logs web`) and the forms
+use Cloudflare's published Turnstile test keys, which always pass.

@@ -1,4 +1,6 @@
 {% load contact %}
+{% url 'messaging:enquire' as enquire_url %}
+{% if request.path != enquire_url %}<a class="float-enrol" href="{{ enquire_url }}">Enrol Now</a>{% endif %}
 <div class="contact-float">
   <a class="float-whatsapp" href="{% whatsapp_link site_settings.whatsapp_primary page_title %}" rel="noopener" target="_blank" aria-label="Chat with us on WhatsApp">{% include "icons/chat.html" %}</a>
   <a class="float-call" href="{{ site_settings.phone_primary|tel_link }}" aria-label="Call {{ site_settings.phone_primary }}">{% include "icons/phone.html" %}</a>

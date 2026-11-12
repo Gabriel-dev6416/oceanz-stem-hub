@@ -20,6 +20,8 @@ django-csp==4.0
     # via -r requirements/base.in
 django-environ==0.14.0
     # via -r requirements/base.in
+django-ratelimit==4.1.0
+    # via -r requirements/base.in
 gunicorn==27.0.0
     # via -r requirements/base.in
 packaging==26.3

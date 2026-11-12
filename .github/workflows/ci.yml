@@ -65,6 +65,11 @@ jobs:
         env:
           DJANGO_SETTINGS_MODULE: config.settings.production
           DJANGO_ALLOWED_HOSTS: example.com
+          # Placeholders: the check only confirms production does not use test keys or
+          # console email. Real values are set on the host, never in the repository.
+          TURNSTILE_SITE_KEY: ci-placeholder-site-key
+          TURNSTILE_SECRET_KEY: ci-placeholder-secret
+          EMAIL_URL: smtp+tls://smtp.example.com:587
         run: |
           export DJANGO_SECRET_KEY="$(python -c 'import secrets; print(secrets.token_urlsafe(64))')"
           python manage.py check --deploy --fail-level WARNING

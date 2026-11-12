@@ -220,14 +220,15 @@ svg {
   color: #fff;
   border-bottom: 1px solid rgb(0 189 249 / 0.25);
 }
-.site-header .container {
+.header-bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: 0.5rem 1rem;
   min-height: 68px;
 }
 .brand {
+  margin-right: auto;
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 1.2rem;
@@ -259,12 +260,18 @@ svg {
 .site-nav a[aria-current="page"] {
   background: rgb(255 255 255 / 0.1);
 }
-.header-actions {
+.site-menu {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
 }
-.theme-toggle {
+.btn-small {
+  min-height: 44px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.95rem;
+}
+.theme-toggle,
+.menu-toggle {
   display: inline-grid;
   place-items: center;
   width: 44px;
@@ -275,9 +282,31 @@ svg {
   color: #fff;
   cursor: pointer;
 }
-.theme-toggle svg {
+.theme-toggle svg,
+.menu-toggle svg {
   width: 20px;
   height: 20px;
+}
+.menu-toggle {
+  display: none;
+}
+@media (max-width: 768px) {
+  .js .menu-toggle {
+    display: inline-grid;
+  }
+  .site-menu {
+    order: 3;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    padding-bottom: 1rem;
+  }
+  .js .site-menu:not(.is-open) {
+    display: none;
+  }
+  .site-nav ul {
+    flex-direction: column;
+  }
 }
 .theme-toggle .icon-sun,
 :root[data-theme="dark"] .theme-toggle .icon-moon {
@@ -348,6 +377,164 @@ svg {
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-top: 1.75rem;
+}
+
+/* ---------- Page header (inner pages) ---------- */
+.page-header {
+  padding-top: clamp(2.5rem, 7vw, 4.5rem);
+}
+.page-header .container {
+  padding-bottom: clamp(1rem, 4vw, 2rem);
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(1.25rem, 4vw, 2rem);
+}
+.card h2 {
+  font-size: 1.3rem;
+}
+
+/* ---------- Forms ---------- */
+.form-section {
+  padding-block: 1rem clamp(3rem, 8vw, 5rem);
+}
+.form-layout {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .form-layout {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+.form {
+  display: grid;
+  gap: 1.15rem;
+}
+.form label,
+.form legend {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.form fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.form input[type="text"],
+.form input[type="email"],
+.form select,
+.form textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+}
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  border-color: var(--ocean);
+  outline: 3px solid rgb(0 189 249 / 0.35);
+  outline-offset: 0;
+}
+.form [aria-invalid="true"] {
+  border-color: #c62828;
+}
+.form fieldset label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  margin: 0;
+  font-weight: 400;
+}
+.form input[type="radio"],
+.form input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  accent-color: var(--royal);
+}
+.form div:has(> input[type="checkbox"]) {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.form div:has(> input[type="checkbox"]) label {
+  font-weight: 400;
+}
+.errorlist {
+  margin: 0 0 0.35rem;
+  padding: 0;
+  list-style: none;
+  color: #c62828;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+:root[data-theme="dark"] .errorlist {
+  color: #ff8a80;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .errorlist {
+    color: #ff8a80;
+  }
+}
+.errorlist.nonfield {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: rgb(198 40 40 / 0.1);
+}
+.form .btn {
+  justify-self: start;
+}
+.aside-card p {
+  color: var(--muted);
+}
+.aside-note {
+  margin-top: 1rem;
+}
+.contact-list {
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+.contact-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.contact-list span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.map {
+  display: block;
+  width: 100%;
+  height: 360px;
+  margin-top: 1.5rem;
+  border: 0;
+  border-radius: var(--radius);
+}
+.reference {
+  font-family: var(--font-code);
+  font-size: clamp(1.5rem, 6vw, 2.2rem);
+  font-weight: 700;
+  color: var(--heading) !important;
+  letter-spacing: 0.05em;
 }
 
 /* ---------- Message pages (errors) ---------- */
@@ -458,6 +645,28 @@ svg {
 }
 .contact-float .float-call {
   background: var(--royal);
+}
+.float-enrol {
+  display: none;
+}
+@media (max-width: 768px) {
+  .float-enrol {
+    position: fixed;
+    left: var(--gutter);
+    bottom: var(--gutter);
+    z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 1.4rem;
+    border-radius: 999px;
+    background: var(--orange);
+    color: var(--ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: var(--shadow);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

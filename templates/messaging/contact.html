@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load contact %}
+{% block description %}Contact OCEANZ STEM HUB by WhatsApp, phone or email, or send us a message.{% endblock %}
+{% block content %}
+{% include "includes/page_header.html" with heading="Contact us" intro="Questions about classes, fees, tertiary programmes or partnerships? Send a message or reach us directly." %}
+<section class="container form-section">
+  <div class="form-layout">
+    <form class="form card" method="post">
+      {% csrf_token %}
+      {{ form }}
+      {% include "includes/turnstile.html" %}
+      <button class="btn btn-accent" type="submit">Send message</button>
+    </form>
+    <aside class="card aside-card">
+      <h2>Reach us directly</h2>
+      <ul class="contact-list">
+        <li><span>WhatsApp</span><a href="{% whatsapp_link site_settings.whatsapp_primary page_title %}" rel="noopener" target="_blank">{{ site_settings.whatsapp_primary }}</a></li>
+        {% if site_settings.whatsapp_secondary %}<li><span>WhatsApp</span><a href="{% whatsapp_link site_settings.whatsapp_secondary page_title %}" rel="noopener" target="_blank">{{ site_settings.whatsapp_secondary }}</a></li>{% endif %}
+        <li><span>Phone</span><a href="{{ site_settings.phone_primary|tel_link }}">{{ site_settings.phone_primary }}</a></li>
+        {% if site_settings.phone_secondary %}<li><span>Phone</span><a href="{{ site_settings.phone_secondary|tel_link }}">{{ site_settings.phone_secondary }}</a></li>{% endif %}
+        <li><span>Email</span><a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></li>
+        {% if site_settings.office_hours %}<li><span>Office hours</span>{{ site_settings.office_hours }}</li>{% endif %}
+        {% if site_settings.address %}<li><span>Hub address</span>{{ site_settings.address|linebreaksbr }}</li>{% endif %}
+      </ul>
+      {% if site_settings.social_links %}
+      <h2>Follow us</h2>
+      <ul class="contact-list">
+        {% for name, url in site_settings.social_links %}<li><a href="{{ url }}" rel="noopener" target="_blank">{{ name }}</a></li>{% endfor %}
+      </ul>
+      {% endif %}
+    </aside>
+  </div>
+  {% if site_settings.address %}
+  <iframe class="map" title="Map showing the OCEANZ STEM HUB location" src="https://www.google.com/maps?q={{ site_settings.address|urlencode }}&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  {% endif %}
+</section>
+{% endblock %}

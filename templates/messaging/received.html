@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load contact %}
+{% block content %}
+<section class="message-page container">
+  <h1>Thank you, we have your enquiry</h1>
+  <p>Your reference number is</p>
+  <p class="reference">{{ reference }}</p>
+  <p>We have emailed you a copy. Our team will contact you soon. For a faster answer, chat with us on WhatsApp and quote your reference.</p>
+  <div class="message-actions">
+    <a class="btn btn-primary" href="{% url 'core:home' %}">Back to the homepage</a>
+    <a class="btn btn-accent" href="{% whatsapp_link site_settings.whatsapp_primary page_title %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}Chat on WhatsApp</a>
+  </div>
+</section>
+{% endblock %}

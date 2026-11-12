@@ -122,3 +122,15 @@ The header shows the text wordmark "OCEANZ STEM HUB" until the official logo fil
    (default 12 months).
 6. **FR-PRG-03 wording.** Already corrected in D-13: "teacher comment, topics covered, topics
    for next week".
+
+## D-17 Contact form attachment
+
+The optional attachment on the contact form (FR-COM-01) is added together with private file
+storage (Cloudflare R2 with signed URLs, type and size checks, virus scan; SEC-INP-02). Until
+then the form has no upload, so no visitor file is ever stored insecurely.
+
+## D-18 Enquiry emails before background workers
+
+Until Celery arrives (R2), the acknowledgement, staff notification and back-office replies are
+sent directly by the web request. A failed send is logged and never loses the enquiry. R2 moves
+all email to background jobs with retries and delivery logs (FR-NTF-04).

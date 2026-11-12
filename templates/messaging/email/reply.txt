@@ -1,0 +1,9 @@
+{% autoescape off %}Hello {{ enquiry.name }},
+
+{{ reply.body }}
+
+Reference: {{ enquiry.reference }}
+
+OCEANZ STEM HUB
+WhatsApp: {{ site.whatsapp_primary }}
+{% endautoescape %}

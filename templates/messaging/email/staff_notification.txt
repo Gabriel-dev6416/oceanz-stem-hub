@@ -1,0 +1,17 @@
+{% autoescape off %}New enquiry {{ enquiry.reference }}
+
+Topic: {{ enquiry.get_enquiry_type_display }}
+Name: {{ enquiry.name }}
+Email: {{ enquiry.email }}
+Phone: {{ enquiry.phone }}
+{% if enquiry.whatsapp %}WhatsApp: {{ enquiry.whatsapp }}
+{% endif %}{% if enquiry.child_class %}Class: {{ enquiry.get_child_class_display }} ({{ enquiry.child_level }})
+{% endif %}{% if enquiry.tutoring_option %}Tutoring option: {{ enquiry.get_tutoring_option_display }}
+{% endif %}{% if enquiry.delivery_format %}Delivery format: {{ enquiry.get_delivery_format_display }}
+{% endif %}Sent from: {{ enquiry.source_page }}
+{% if enquiry.message %}
+Message:
+{{ enquiry.message }}
+{% endif %}
+Reply to this email to answer the enquirer directly, or open the enquiry in the back-office.
+{% endautoescape %}

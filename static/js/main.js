@@ -12,6 +12,16 @@
     toggle.setAttribute("aria-label", "Switch to " + next + " mode");
   }
 
+  var menuToggle = document.querySelector("[data-menu-toggle]");
+  var menu = document.getElementById("site-menu");
+  if (menuToggle && menu) {
+    menuToggle.addEventListener("click", function () {
+      var open = menu.classList.toggle("is-open");
+      menuToggle.setAttribute("aria-expanded", String(open));
+      menuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    });
+  }
+
   if (toggle) {
     updateLabel();
     toggle.addEventListener("click", function () {
