@@ -1,0 +1,21 @@
+from .base import *  # noqa: F403
+from .base import env
+
+DEBUG = False
+
+# Render and Cloudflare terminate TLS and forward the original scheme.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
+SECURE_HSTS_SECONDS = env.int("DJANGO_SECURE_HSTS_SECONDS", default=31536000)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+SESSION_COOKIE_SECURE = env.bool("DJANGO_SECURE_COOKIES", default=True)
+CSRF_COOKIE_SECURE = env.bool("DJANGO_SECURE_COOKIES", default=True)
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
+
+X_FRAME_OPTIONS = "DENY"
