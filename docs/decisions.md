@@ -100,3 +100,25 @@ R2 moves this editing into /staff/ and limits the Django admin to Super Admins (
 ## D-15 Logo
 
 The header shows the text wordmark "OCEANZ STEM HUB" until the official logo file is supplied.
+
+## D-16 SRS review fixes (12 November 2026)
+
+1. **Class place, not "group".** Parents buy a Class place or Private tutoring; small groups sit
+   inside a class. FR-PAY-01, FR-PVT-09, FR-WEB-05 and the Section 17 enrolment scenario read
+   "class place" (or "Class/Private") wherever they say "group". Fee structures, the pricing
+   page and enrolment screens use this wording.
+2. **No class capacity.** The "capacity" field is removed from classes (FR-ACD-02). Classes have
+   a minimum to open (default 12, FR-ACD-09) and no maximum. Capacity exists only on tertiary
+   cohorts, holiday programmes and the on-site venue, which drive the waitlist (FR-ENR-09).
+3. **Finance conflict of interest is Must, R2.** SEC-ACL-04 is split: a Finance Officer cannot
+   verify payments or approve refunds for themselves or for families of learners they teach
+   (Must, R2, same as FR-STF-04 and the Section 14.1 test case). The second approver for a
+   teacher's own learners' term results stays Should, R4.
+4. **Free trial button before R3.** Already decided in D-02: it opens the enquiry form with
+   "Free trial class" pre-selected until trial booking ships in R3.
+5. **Recordings follow retention; notes and lesson videos are archived.** FR-PRT-08 applies to
+   notes and uploaded lesson videos: archived, never deleted, when learners lose access. Live
+   class recordings follow FR-LIV-11 and SEC-LIV-04: deleted after the retention period
+   (default 12 months).
+6. **FR-PRG-03 wording.** Already corrected in D-13: "teacher comment, topics covered, topics
+   for next week".
