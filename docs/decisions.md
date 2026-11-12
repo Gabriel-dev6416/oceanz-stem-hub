@@ -90,3 +90,13 @@ and rules need a separate Owner decision before design.
 
 - FR-PRG-03: "topics covered topics for next week" reads "topics covered and topics for next
   week".
+
+## D-14 Editing website content in R1
+
+Until the branded staff back-office (/staff/) and the Admin and staff roles arrive in R2, the
+owner edits site settings and homepage content in the Django admin at the private admin path.
+R2 moves this editing into /staff/ and limits the Django admin to Super Admins (FR-ADM-01).
+
+## D-15 Logo
+
+The header shows the text wordmark "OCEANZ STEM HUB" until the official logo file is supplied.

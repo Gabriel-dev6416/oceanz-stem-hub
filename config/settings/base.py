@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import environ
+from csp.constants import NONE, SELF
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -23,6 +24,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "csp",
     "apps.core",
     "apps.accounts",
 ]
@@ -30,6 +32,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "csp.middleware.CSPMiddleware",
+    "apps.core.middleware.PermissionsPolicyMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -51,6 +55,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "apps.core.context_processors.site",
             ],
         },
     },
@@ -93,10 +98,32 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
 }
+
+# Strict Content Security Policy (SEC-TLS-01): everything is served from our own origin.
+# Approved third-party origins (Zoom SDK, Paystack, Turnstile) are added in the release
+# that introduces them.
+CONTENT_SECURITY_POLICY = {
+    "DIRECTIVES": {
+        "default-src": [SELF],
+        "script-src": [SELF],
+        "style-src": [SELF],
+        "img-src": [SELF, "data:"],
+        "font-src": [SELF],
+        "connect-src": [SELF],
+        "form-action": [SELF],
+        "frame-ancestors": [NONE],
+        "base-uri": [SELF],
+        "object-src": [NONE],
+    }
+}
+
+# Camera and microphone stay off everywhere until the classroom pages (R3) enable them.
+PERMISSIONS_POLICY = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

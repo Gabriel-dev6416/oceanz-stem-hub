@@ -6,3 +6,5 @@ urlpatterns = [
     path(f"{settings.ADMIN_URL}/", admin.site.urls),
     path("", include("apps.core.urls")),
 ]
+
+handler500 = "apps.core.views.server_error"

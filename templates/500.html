@@ -1,0 +1,22 @@
+{% load static contact %}<!doctype html>
+<html lang="en-NG">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Something went wrong | OCEANZ STEM HUB</title>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+  <main id="main">
+    <section class="message-page container">
+      <p class="code">500</p>
+      <h1>Something went wrong</h1>
+      <p>We have been notified and are fixing it. Please try again in a few minutes.</p>
+      <div class="message-actions">
+        <a class="btn btn-primary" href="/">Go to the homepage</a>
+        <a class="btn btn-accent" href="{% whatsapp_link whatsapp_number %}" rel="noopener" target="_blank">Chat on WhatsApp</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{% load contact %}
+<section class="message-page container">
+  <p class="code">{{ code }}</p>
+  <h1>{{ heading }}</h1>
+  <p>{{ message }}</p>
+  <div class="message-actions">
+    <a class="btn btn-primary" href="{% url 'core:home' %}">Go to the homepage</a>
+    <a class="btn btn-accent" href="{% whatsapp_link site_settings.whatsapp_primary %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}Chat on WhatsApp</a>
+  </div>
+</section>

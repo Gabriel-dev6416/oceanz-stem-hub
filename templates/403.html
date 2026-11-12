@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Access denied | OCEANZ STEM HUB{% endblock %}
+{% block content %}
+{% include "includes/message_page.html" with code="403" heading="Access denied" message="You do not have permission to view this page." %}
+{% endblock %}

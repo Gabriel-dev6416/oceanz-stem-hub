@@ -13,11 +13,17 @@ asgiref==3.13.0
 cffi==2.1.1
     # via argon2-cffi-bindings
 django==5.2.19
+    # via
+    #   -r requirements/base.in
+    #   django-csp
+django-csp==4.0
     # via -r requirements/base.in
 django-environ==0.14.0
     # via -r requirements/base.in
 gunicorn==27.0.0
     # via -r requirements/base.in
+packaging==26.3
+    # via django-csp
 psycopg==3.3.8
     # via -r requirements/base.in
 psycopg-binary==3.3.8

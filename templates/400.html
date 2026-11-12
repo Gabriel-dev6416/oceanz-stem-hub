@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Bad request | OCEANZ STEM HUB{% endblock %}
+{% block content %}
+{% include "includes/message_page.html" with code="400" heading="Bad request" message="We could not understand that request. Please go back and try again." %}
+{% endblock %}

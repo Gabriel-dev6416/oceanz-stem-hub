@@ -53,6 +53,11 @@ django==5.2.19
     # via
     #   -c requirements/base.txt
     #   -r requirements/base.in
+    #   django-csp
+django-csp==4.0
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.in
 django-environ==0.14.0
     # via
     #   -c requirements/base.txt
@@ -86,7 +91,9 @@ packageurl-python==0.17.6
     # via cyclonedx-python-lib
 packaging==26.3
     # via
+    #   -c requirements/base.txt
     #   build
+    #   django-csp
     #   pip-audit
     #   pip-requirements-parser
     #   pytest

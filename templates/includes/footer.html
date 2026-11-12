@@ -1,0 +1,32 @@
+{% load contact %}
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h2>OCEANZ STEM HUB</h2>
+        <p>STEM Education / M.S.C: Mathematics, Science and Coding/Digital Technologies for Primary, Secondary and Tertiary learners in Nigeria and abroad.</p>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul class="footer-list">
+          <li>WhatsApp: <a href="{% whatsapp_link site_settings.whatsapp_primary page_title %}" rel="noopener" target="_blank">{{ site_settings.whatsapp_primary }}</a></li>
+          {% if site_settings.whatsapp_secondary %}<li>WhatsApp: <a href="{% whatsapp_link site_settings.whatsapp_secondary page_title %}" rel="noopener" target="_blank">{{ site_settings.whatsapp_secondary }}</a></li>{% endif %}
+          <li>Call: <a href="{{ site_settings.phone_primary|tel_link }}">{{ site_settings.phone_primary }}</a></li>
+          {% if site_settings.phone_secondary %}<li>Call: <a href="{{ site_settings.phone_secondary|tel_link }}">{{ site_settings.phone_secondary }}</a></li>{% endif %}
+          <li>Email: <a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></li>
+          {% if site_settings.office_hours %}<li>{{ site_settings.office_hours }}</li>{% endif %}
+          {% if site_settings.address %}<li>{{ site_settings.address|linebreaksbr }}</li>{% endif %}
+        </ul>
+      </div>
+      {% if site_settings.social_links %}
+      <div>
+        <h2>Follow us</h2>
+        <ul class="footer-list">
+          {% for name, url in site_settings.social_links %}<li><a href="{{ url }}" rel="noopener" target="_blank">{{ name }}</a></li>{% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+    <p class="footer-bottom">&copy; {% now "Y" %} OCEANZ STEM HUB. All rights reserved.</p>
+  </div>
+</footer>

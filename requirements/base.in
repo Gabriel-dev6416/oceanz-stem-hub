@@ -7,3 +7,5 @@ gunicorn
 psycopg[binary]
 redis
 whitenoise
+
+django-csp
