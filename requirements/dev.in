@@ -1,0 +1,10 @@
+# Development, test and security tools. Edit this file, then run pip-compile (see README).
+-c base.txt
+-r base.in
+bandit
+pip-audit
+pip-tools
+pre-commit
+pytest
+pytest-django
+ruff

@@ -13,7 +13,7 @@ school curriculum.
 config/            settings (base, development, production), urls, wsgi
 apps/core/         public site, CMS, health check
 apps/accounts/     custom user model (public UUID, optional unique email, Argon2id)
-requirements/      base.txt (runtime), dev.txt (tests, lint, security tools)
+requirements/      *.in (what we depend on), *.txt (exact versions, generated)
 docs/              decisions and technical documentation
 ```
 
@@ -55,6 +55,28 @@ docker compose up -d db redis
 .venv/Scripts/python -m ruff format --check .
 .venv/Scripts/pre-commit install
 ```
+
+## Dependencies
+
+`requirements/base.in` and `requirements/dev.in` list the packages we use, without versions
+(Django is kept on the LTS line). `requirements/base.txt` and `requirements/dev.txt` are
+generated from them with exact versions; Docker, CI and the local venv install from the
+`.txt` files, so every environment runs the same versions. Never edit the `.txt` files by hand.
+
+Add a package: add it to the right `.in` file, then compile. Upgrade everything to the latest
+versions:
+
+```bash
+.venv/Scripts/python -m piptools compile --strip-extras --upgrade -o requirements/base.txt requirements/base.in
+```
+```bash
+.venv/Scripts/python -m piptools compile --strip-extras --upgrade -o requirements/dev.txt requirements/dev.in
+```
+```bash
+.venv/Scripts/python -m pip install -r requirements/dev.txt
+```
+
+Then run the tests and rebuild the Docker image before committing both `.in` and `.txt` files.
 
 ## Build and push the Docker image
 

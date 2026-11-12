@@ -1,0 +1,9 @@
+# Runtime dependencies. Edit this file, then run pip-compile (see README).
+# Django stays on the current LTS line as required by the SRS.
+Django>=5.2,<6.0
+argon2-cffi
+django-environ
+gunicorn
+psycopg[binary]
+redis
+whitenoise
