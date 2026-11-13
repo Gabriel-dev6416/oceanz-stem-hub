@@ -77,6 +77,11 @@ class HolidaySession(OrderedItem):
     def __str__(self):
         return self.name
 
+    @property
+    def badge(self):
+        """Short month label for the session tile, e.g. 'Easter/April' -> 'APR'."""
+        return self.name.split("/")[-1].strip()[:3].upper()
+
 
 class TertiaryPackage(OrderedItem):
     """A tertiary package (SRS 3.5). Fees are quoted by the Admin and never published."""

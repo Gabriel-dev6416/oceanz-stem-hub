@@ -188,3 +188,18 @@ to review and publish (v3.3 Appendix B item 25).
   in R2.
 - Curriculum explorer: until the weekly topics for a class are entered, it says so and shows the
   class's subjects and the STEM pathway skills from the SRS, never invented topics.
+
+## D-22 Homepage design pass (UBIA layout, OCEANZ identity)
+
+At the Project Owner's request the homepage follows the layout patterns of the UBIA Online
+School homepage (SRS reference model), restyled for OCEANZ and with OCEANZ content only:
+- Hero in two columns: uppercase two-tone headline, tick points, four fact boxes and a visual
+  panel. The fact boxes show true facts (lowest Term Classes fee, small-group size, ways to
+  learn, number of tertiary packages), never invented figures.
+- No photos or original logo file exist yet, so the visual panel is an original illustration
+  built in code around the interim ~R mark, with orbiting subject badges and two floating
+  fact cards. It is replaced by the photo carousel when photos are supplied and media storage
+  is set up. The panel is hidden on phones to keep the page short.
+- Split light bands with icon lists and a framed card with an offset colour block; glowing dark
+  programme panels with fee chips and Holiday Tuition session tiles with month badges; centred
+  steps joined by a dashed line; icon cards for the requirements; one icon set for the site.

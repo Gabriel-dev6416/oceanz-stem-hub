@@ -50,6 +50,7 @@ def overview(request):
             "page_title": "Programmes",
             "primary_levels": [lv for lv in levels if lv.group == Level.Group.PRIMARY],
             "secondary_levels": [lv for lv in levels if lv.group == Level.Group.SECONDARY],
+            "levels": levels,
             "sessions": _sessions(),
             "packages": _packages(),
             "faqs": FAQ.objects.filter(published=True),

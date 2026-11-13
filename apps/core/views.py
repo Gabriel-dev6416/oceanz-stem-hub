@@ -63,6 +63,8 @@ def home(request):
             "faqs": FAQ.objects.filter(published=True),
             "testimonials": Testimonial.objects.filter(published=True, consent_confirmed=True),
             "explorer_form": ExplorerForm(),
+            "levels": Level.objects.filter(published=True),
+            "sessions": HolidaySession.objects.filter(published=True),
             "packages": TertiaryPackage.objects.filter(published=True),
             "term_from": Level.objects.filter(published=True).aggregate(m=Min("term_fee"))["m"],
             "holiday_from": HolidaySession.objects.filter(published=True).aggregate(m=Min("fee"))[

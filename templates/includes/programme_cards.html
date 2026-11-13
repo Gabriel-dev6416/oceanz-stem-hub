@@ -1,35 +1,34 @@
 {% load contact money %}
-<div class="grid grid-2">
-  <div class="card programme-card">
+<div class="programme-panels">
+  <article class="programme-panel">
     <p class="section-label">During the school term</p>
-    <h3>Term Classes Programme</h3>
-    <ul class="chips">
-      <li>Homework and assignment guidance</li>
-      <li>Difficult-concept clarification</li>
-      <li>Regular revision</li>
-      <li>Hands-on project execution</li>
-    </ul>
-    <p class="best-for"><strong>Best for:</strong> steady support and progress all term.</p>
-    {% if term_from %}<p class="programme-fee">From <strong>{{ term_from|naira }}</strong> per term</p>{% endif %}
-    <div class="quote-actions">
-      <a class="btn btn-accent btn-small" href="{% url 'messaging:enquire' %}">Enrol</a>
-      <a class="btn btn-whatsapp btn-small" href="{% whatsapp_link site_settings.whatsapp 'Term Classes Programme' %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}WhatsApp</a>
+    <h3>Term Classes <span class="highlight">Programme</span></h3>
+    <p class="panel-text">Steady support all term: homework and assignment guidance, difficult-concept clarification, regular revision and hands-on projects.</p>
+    {% if levels %}
+    <div class="price-box">
+      <p class="price-box-title">Fee per term</p>
+      <ul class="price-chips">
+        {% for level in levels %}<li><span>{{ level.name }}</span><strong>{{ level.term_fee|naira }}</strong></li>{% endfor %}
+      </ul>
     </div>
-  </div>
-  <div class="card programme-card">
-    <p class="section-label">Easter/April, Summer/August and December</p>
-    <h3>Holiday Tuition</h3>
-    <ul class="chips">
-      <li>Live classes</li>
-      <li>Common Entrance and BECE preparation</li>
-      <li>SSCE (WAEC and NECO) and JAMB/UTME preparation</li>
-      <li>Olympiad preparation</li>
-    </ul>
-    <p class="best-for"><strong>Best for:</strong> exam preparation and catching up in the holidays.</p>
-    {% if holiday_from %}<p class="programme-fee">From <strong>{{ holiday_from|naira }}</strong> per session</p>{% endif %}
+    {% endif %}
     <div class="quote-actions">
-      <a class="btn btn-accent btn-small" href="{% url 'programmes:holiday' %}">See sessions</a>
-      <a class="btn btn-whatsapp btn-small" href="{% whatsapp_link site_settings.whatsapp 'Holiday Tuition' %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}WhatsApp</a>
+      <a class="btn btn-accent" href="{% url 'messaging:enquire' %}">Enrol for Term Classes</a>
+      <a class="btn btn-whatsapp" href="{% whatsapp_link site_settings.whatsapp 'Term Classes Programme' %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}Ask on WhatsApp</a>
     </div>
-  </div>
+  </article>
+  <article class="programme-panel programme-panel-holiday">
+    <p class="section-label">During the school holidays</p>
+    <h3>Holiday <span class="highlight">Tuition</span></h3>
+    <p class="panel-text">Live classes and preparation for Common Entrance, BECE, SSCE (WAEC and NECO), JAMB/UTME and Olympiads.</p>
+    <ul class="session-tiles">
+      {% for session in sessions %}
+      <li><span class="session-badge">{{ session.badge }}</span><span class="session-name">{{ session.name }}</span><strong>{{ session.fee|naira }}</strong></li>
+      {% endfor %}
+    </ul>
+    <div class="quote-actions">
+      <a class="btn btn-accent" href="{% url 'programmes:holiday' %}">See Holiday Tuition</a>
+      <a class="btn btn-whatsapp" href="{% whatsapp_link site_settings.whatsapp 'Holiday Tuition' %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}Ask on WhatsApp</a>
+    </div>
+  </article>
 </div>

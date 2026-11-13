@@ -1,26 +1,57 @@
 {% extends "base.html" %}
-{% load contact money %}
+{% load contact money static %}
 {% block title %}OCEANZ STEM HUB | {{ home.hero_title }}{% if home.hero_highlight %} / {{ home.hero_highlight }}{% endif %}{% endblock %}
 {% block content %}
 {% url 'messaging:enquire' as enquire_url %}
 
 {# Band 2: hero #}
 <section class="hero section-dark" aria-labelledby="hero-title">
-  <div class="container hero-inner">
-    <p class="badge">{{ home.hero_badge }}</p>
-    <h1 id="hero-title">{{ home.hero_title }}{% if home.hero_highlight %} / <span class="highlight">{{ home.hero_highlight }}</span>{% endif %}</h1>
-    <p class="hero-text">{{ home.hero_text }}</p>
-    <div class="hero-actions">
-      <a class="btn btn-accent" href="{{ enquire_url }}">Enrol Your Child</a>
-      <a class="btn btn-outline-light" href="{{ enquire_url }}?interest=trial">Book a Free Trial Class</a>
-      <a class="btn btn-whatsapp" href="{% whatsapp_link site_settings.whatsapp page_title %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}WhatsApp</a>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="badge">{{ home.hero_badge }}</p>
+      <h1 id="hero-title">{{ home.hero_title }}{% if home.hero_highlight %} / <span class="highlight">{{ home.hero_highlight }}</span>{% endif %}</h1>
+      <p class="hero-text">{{ home.hero_text }}</p>
+      <ul class="hero-points">
+        <li>{% include "icons/ui.html" with name="check" %}Live lessons inside the website</li>
+        <li>{% include "icons/ui.html" with name="check" %}Small groups of 6 to 12</li>
+        <li>{% include "icons/ui.html" with name="check" %}Verified, trained teachers</li>
+        <li>{% include "icons/ui.html" with name="check" %}Progress reports to parents</li>
+      </ul>
+      <div class="hero-actions">
+        <a class="btn btn-accent" href="{{ enquire_url }}">Enrol Your Child</a>
+        <a class="btn btn-outline-light" href="{{ enquire_url }}?interest=trial">Book a Free Trial Class</a>
+        <a class="btn btn-whatsapp" href="{% whatsapp_link site_settings.whatsapp page_title %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}WhatsApp</a>
+      </div>
+      <ul class="fact-boxes">
+        {% if term_from %}<li><strong>{{ term_from|naira }}</strong><span>Term Classes, per term</span></li>{% endif %}
+        <li><strong>6&ndash;12</strong><span>Learners in each small group</span></li>
+        <li><strong>4</strong><span>Ways to learn, including at home</span></li>
+        <li><strong>{{ packages|length }}</strong><span>Tertiary skill packages</span></li>
+      </ul>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="orbit orbit-outer"></div>
+      <div class="orbit orbit-inner"></div>
+      <div class="hero-mark">{% include "includes/logo.html" %}</div>
+      <span class="orbit-badge orbit-maths">{% include "icons/ui.html" with name="sigma" %}Mathematics</span>
+      <span class="orbit-badge orbit-science">{% include "icons/ui.html" with name="flask" %}Science</span>
+      <span class="orbit-badge orbit-coding">{% include "icons/ui.html" with name="code" %}Coding</span>
+      <span class="orbit-badge orbit-robotics">{% include "icons/ui.html" with name="chip" %}Robotics</span>
+      <div class="float-card float-card-top">
+        <span class="float-icon">{% include "icons/ui.html" with name="monitor" %}</span>
+        <span><strong>Live classes</strong>Online, on-site, hybrid or at home</span>
+      </div>
+      <div class="float-card float-card-bottom">
+        <span class="float-icon">{% include "icons/ui.html" with name="award" %}</span>
+        <span><strong>Primary to Tertiary</strong>Nigerian curriculum, every level</span>
+      </div>
     </div>
   </div>
   {% include "icons/wave.html" %}
 </section>
 
 {# Band 3: trust strip with the C3 values #}
-<section class="band" aria-labelledby="trust-title">
+<section class="band band-trust" aria-labelledby="trust-title">
   <div class="container">
     <h2 id="trust-title" class="visually-hidden">Why parents choose OCEANZ</h2>
     {% if stats %}
@@ -51,37 +82,27 @@
 
 {# Band 4: who we teach #}
 <section class="band band-mist" aria-labelledby="who-title">
-  <div class="container">
-    {% include "includes/section_head.html" with id="who-title" label="Who we teach" heading="Primary to" accent="Tertiary" intro="Every learner is placed in the right class for their level, from Primary 1 to university and beyond." %}
-    <ul class="grid grid-3 card-list">
-      <li class="card level-card">
-        <h3>Primary</h3>
-        <p class="level-ages">Ages 6 to 11</p>
-        <ul class="ticks">
-          <li>Lower Primary: Primary 1 to 3</li>
-          <li>Upper Primary: Primary 4 to 6</li>
-          <li>Common Entrance and First School Leaving Examination preparation</li>
-        </ul>
-      </li>
-      <li class="card level-card">
-        <h3>Secondary</h3>
-        <p class="level-ages">Ages 11 to 17</p>
-        <ul class="ticks">
-          <li>Junior Secondary: JSS 1 to 3</li>
-          <li>Senior Secondary: SS 1 to 3, Science and Art</li>
-          <li>BECE, WAEC, NECO and JAMB/UTME preparation</li>
-        </ul>
-      </li>
-      <li class="card level-card">
-        <h3>Tertiary</h3>
-        <p class="level-ages">Ages 16 and over</p>
-        <ul class="ticks">
-          <li>Packages in programming, web development, data analysis and more</li>
-          <li>IoT/Robotics, GSM repairs and Mathematics and Statistics</li>
-          <li>A certificate at the end of each package</li>
-        </ul>
-      </li>
-    </ul>
+  <div class="container split">
+    <div>
+      {% include "includes/section_head.html" with id="who-title" label="Who we teach" heading="Primary to" accent="Tertiary" intro="Every learner is placed in the right class for their level, from Primary 1 to university and beyond." %}
+      <ul class="icon-list">
+        <li><span class="icon-chip">{% include "icons/ui.html" with name="book" %}</span><span><strong>Primary</strong> Lower Primary (Primary 1 to 3) and Upper Primary (Primary 4 to 6), with Common Entrance and First School Leaving Examination preparation.</span></li>
+        <li><span class="icon-chip">{% include "icons/ui.html" with name="users" %}</span><span><strong>Secondary</strong> Junior Secondary (JSS 1 to 3) and Senior Secondary (SS 1 to 3, Science and Art), with BECE, WAEC, NECO and JAMB/UTME preparation.</span></li>
+        <li><span class="icon-chip">{% include "icons/ui.html" with name="award" %}</span><span><strong>Tertiary</strong> Packages in programming, web development, data analysis, IoT/Robotics, GSM repairs and more, each with a certificate.</span></li>
+      </ul>
+      <a class="btn btn-primary" href="{% url 'programmes:overview' %}">Explore programmes {% include "icons/ui.html" with name="arrow-right" %}</a>
+    </div>
+    <div class="ladder-card">
+      <p class="ladder-title">The OCEANZ STEM pathway</p>
+      <ol class="ladder">
+        <li><span class="ladder-badge">P1&ndash;3</span><span><strong>Lower Primary</strong>Ages 6 to 8</span></li>
+        <li><span class="ladder-badge">P4&ndash;6</span><span><strong>Upper Primary</strong>Ages 9 to 11</span></li>
+        <li><span class="ladder-badge">JSS</span><span><strong>Junior Secondary</strong>Ages 11 to 14</span></li>
+        <li><span class="ladder-badge">SS</span><span><strong>Senior Secondary</strong>Science and Art, ages 14 to 17</span></li>
+        <li><span class="ladder-badge">16+</span><span><strong>Tertiary packages</strong>Skills for a tech career</span></li>
+      </ol>
+      <a class="ladder-link" href="{% url 'programmes:subjects' %}">See the full pathway</a>
+    </div>
   </div>
 </section>
 
@@ -90,75 +111,84 @@
   <div class="container">
     {% include "includes/section_head.html" with id="subjects-title" label="What we teach" heading="STEM Education /" accent="M.S.C" intro="Mathematics, Science and Coding/Digital Technologies, with technology woven into every subject." %}
     <ul class="grid grid-4 card-list">
-      <li class="card card-dark"><h3>Mathematics</h3><p>From numbers and shapes to algebra, statistics and Further Mathematics, with fun maths games for younger learners.</p></li>
-      <li class="card card-dark"><h3>Science</h3><p>Science with simulations and experiments; Basic Science at JSS; Physics, Chemistry and Biology at SS.</p></li>
-      <li class="card card-dark"><h3>Coding / Digital Technologies</h3><p>ScratchJr and Scratch, Python, web development, data analysis, robotics and competitive programming.</p></li>
-      <li class="card card-dark"><h3>Computer Hardware and GSM Repairs</h3><p>Practical hardware and phone repair skills from Junior Secondary upwards.</p></li>
+      <li class="card card-dark subject-card"><span class="feature-icon">{% include "icons/ui.html" with name="sigma" %}</span><h3>Mathematics</h3><p>From numbers and shapes to algebra, statistics and Further Mathematics, with fun maths games for younger learners.</p></li>
+      <li class="card card-dark subject-card"><span class="feature-icon">{% include "icons/ui.html" with name="flask" %}</span><h3>Science</h3><p>Science with simulations and experiments; Basic Science at JSS; Physics, Chemistry and Biology at SS.</p></li>
+      <li class="card card-dark subject-card"><span class="feature-icon">{% include "icons/ui.html" with name="code" %}</span><h3>Coding / Digital Technologies</h3><p>ScratchJr and Scratch, Python, web development, data analysis, robotics and competitive programming.</p></li>
+      <li class="card card-dark subject-card"><span class="feature-icon">{% include "icons/ui.html" with name="chip" %}</span><h3>Computer Hardware and GSM Repairs</h3><p>Practical hardware and phone repair skills from Junior Secondary upwards.</p></li>
     </ul>
+    <div class="band-actions"><a class="btn btn-outline-light" href="{% url 'programmes:subjects' %}">See all subjects {% include "icons/ui.html" with name="arrow-right" %}</a></div>
   </div>
 </section>
 
 {# Band 6: curriculum explorer (FR-ENG-01) #}
 <section class="band" aria-labelledby="explorer-title">
   <div class="container">
-    {% include "includes/section_head.html" with id="explorer-title" label="See what your child will learn" heading="Pick a class," accent="see the plan" intro="Choose a class and a term to see its subjects, topics and the skills your child will gain." %}
-    {% include "programmes/explorer_form.html" with form=explorer_form %}
+    <div class="explorer-panel">
+      {% include "includes/section_head.html" with id="explorer-title" label="See what your child will learn" heading="Pick a class," accent="see the plan" intro="Choose a class and a term to see its subjects, topics and the skills your child will gain." %}
+      {% include "programmes/explorer_form.html" with form=explorer_form %}
+    </div>
   </div>
 </section>
 
 {# Band 7: how we teach #}
-<section class="band" aria-labelledby="how-title">
+<section class="band band-mist" aria-labelledby="how-title">
   <div class="container">
     {% include "includes/section_head.html" with id="how-title" label="How we teach" heading="Learn the way that" accent="suits you" intro="Choose a class place or private tutoring, then the format that fits your family." %}
     <div class="grid grid-2">
       <div class="card option-card">
+        <span class="feature-icon">{% include "icons/ui.html" with name="users" %}</span>
         <h3>Class place</h3>
         <p>Your child joins their class and learns in a small group of 6 to 12, with a supervising teacher for close support and group projects.</p>
       </div>
       <div class="card option-card">
+        <span class="feature-icon">{% include "icons/ui.html" with name="user" %}</span>
         <h3>Private tutoring</h3>
         <p>One-on-one lessons with a teacher matched to your child. Priced by quote and paid once a month in advance.</p>
         <a href="{{ enquire_url }}?interest=private">Ask for a quote</a>
       </div>
     </div>
     <ul class="grid grid-4 card-list formats">
-      <li class="card"><h3>Online</h3><p>Live classes inside the OCEANZ website, from anywhere.</p></li>
-      <li class="card"><h3>On-site</h3><p>Lessons at our hub in Abakaliki.</p></li>
-      <li class="card"><h3>Hybrid</h3><p>Online lessons on weekdays, on-site lessons every Saturday.</p></li>
-      <li class="card"><h3>Home lessons</h3><p>After school and at weekends in the Abakaliki area, with a verified teacher and an adult at home.</p></li>
+      <li class="format-tile"><span class="icon-chip">{% include "icons/ui.html" with name="monitor" %}</span><h3>Online</h3><p>Live classes inside the OCEANZ website, from anywhere.</p></li>
+      <li class="format-tile"><span class="icon-chip">{% include "icons/ui.html" with name="map-pin" %}</span><h3>On-site</h3><p>Lessons at our hub in Abakaliki.</p></li>
+      <li class="format-tile"><span class="icon-chip">{% include "icons/ui.html" with name="layers" %}</span><h3>Hybrid</h3><p>Online lessons on weekdays, on-site lessons every Saturday.</p></li>
+      <li class="format-tile"><span class="icon-chip">{% include "icons/ui.html" with name="home" %}</span><h3>Home lessons</h3><p>After school and at weekends in the Abakaliki area, with a verified teacher and an adult at home.</p></li>
     </ul>
   </div>
 </section>
 
 {# Band 8: programmes and pricing #}
-<section class="band band-mist" aria-labelledby="programmes-title">
+<section class="band section-dark" aria-labelledby="programmes-title">
   <div class="container">
-    {% include "includes/section_head.html" with id="programmes-title" label="Programmes and pricing" heading="Two school" accent="programmes" intro="Clear fees in Naira, paid once after we confirm your child's class." %}
+    {% include "includes/section_head.html" with id="programmes-title" label="Current programmes" heading="Two school" accent="programmes" intro="Clear fees in Naira, paid once after we confirm your child's class." %}
     {% include "includes/programme_cards.html" %}
-    <p class="fee-note"><a href="{% url 'programmes:pricing' %}">See all fees</a></p>
+    <p class="fee-note fee-note-light">Registration is {{ site_settings.registration_fee|naira }} per child, once. <a href="{% url 'programmes:pricing' %}">See all fees and payment details</a></p>
   </div>
 </section>
 
 {# Band 9: "More than coding" tertiary packages #}
-<section class="band section-dark" aria-labelledby="tertiary-title">
-  <div class="container">
-    {% include "includes/section_head.html" with id="tertiary-title" label="Tertiary packages" heading="More than" accent="coding" intro="Practical skills for older learners, each with a certificate. Fees are agreed with the Admin." %}
-    <ul class="chips chips-dark">
+<section class="band" aria-labelledby="tertiary-title">
+  <div class="container split">
+    <div>
+      {% include "includes/section_head.html" with id="tertiary-title" label="Tertiary packages" heading="More than" accent="coding" intro="Practical skills for older learners, each with a certificate. Fees are agreed with the Admin after a short conversation about your goals." %}
+      <a class="btn btn-primary" href="{% url 'programmes:tertiary' %}">Explore tertiary packages {% include "icons/ui.html" with name="arrow-right" %}</a>
+    </div>
+    <ul class="chips package-chips">
       {% for package in packages %}<li><a href="{{ package.get_absolute_url }}">{{ package.name }}</a></li>{% endfor %}
     </ul>
-    <div class="band-actions">
-      <a class="btn btn-outline-light" href="{% url 'programmes:tertiary' %}">Explore tertiary packages</a>
-    </div>
   </div>
 </section>
 
 {# Band 10: simple enrolment in four steps (FR-WEB-02) #}
 <section class="band band-mist" aria-labelledby="steps-title">
   <div class="container">
-    {% include "includes/section_head.html" with id="steps-title" label="Simple enrolment" heading="Start in" accent="four steps" intro="Registration is per term, and fees are paid once." %}
+    <div class="section-head section-head-center">
+      <p class="section-label">Simple enrolment</p>
+      <h2 id="steps-title">Start in <span class="accent">four steps</span></h2>
+      <p class="section-intro">Registration is per term, and fees are paid once.</p>
+    </div>
     {% include "includes/enrol_steps.html" %}
-    <div class="band-actions">
-      <a class="btn btn-accent" href="{{ enquire_url }}">Enrol Now</a>
+    <div class="band-actions band-actions-center">
+      <a class="btn btn-accent" href="{{ enquire_url }}">Begin enrolment {% include "icons/ui.html" with name="arrow-right" %}</a>
     </div>
   </div>
 </section>
@@ -182,15 +212,25 @@
 
 {# Band 13: ready to learn online (FR-WEB-18) and families abroad (FR-ENG-12) #}
 <section class="band section-dark" aria-labelledby="ready-title">
-  <div class="container grid grid-2 ready">
-    <div>
-      {% include "includes/section_head.html" with id="ready-title" label="Ready to learn online" heading="What your child" accent="needs" intro="For online lessons, please make sure your child has:" %}
-      {% include "includes/requirements.html" with light=True %}
+  <div class="container">
+    <div class="section-head section-head-center">
+      <p class="section-label">Ready to learn online</p>
+      <h2 id="ready-title">Your child only needs <span class="accent">a few essentials</span></h2>
+      <p class="section-intro">No device or internet at home? Choose on-site lessons at the hub.</p>
     </div>
-    <div class="card card-dark abroad">
-      <p class="section-label">Families abroad</p>
-      <h3>Keep your child on the Nigerian curriculum from anywhere</h3>
-      <p>Families in the US, UK, Canada and beyond join live classes at times that suit their time zone. Fees for families abroad are quoted by our team.</p>
+    <ul class="grid grid-4 card-list">
+      <li class="card card-dark need-card"><span class="feature-icon">{% include "icons/ui.html" with name="monitor" %}</span><h3>A computer or smart device</h3></li>
+      <li class="card card-dark need-card"><span class="feature-icon">{% include "icons/ui.html" with name="wifi" %}</span><h3>Reliable internet</h3></li>
+      <li class="card card-dark need-card"><span class="feature-icon">{% include "icons/ui.html" with name="home" %}</span><h3>A quiet learning space</h3></li>
+      <li class="card card-dark need-card"><span class="feature-icon">{% include "icons/ui.html" with name="book" %}</span><h3>Learning materials</h3></li>
+    </ul>
+    <div class="abroad-strip">
+      <span class="feature-icon">{% include "icons/ui.html" with name="globe" %}</span>
+      <div>
+        <p class="section-label">Families abroad</p>
+        <h3>Keep your child on the Nigerian curriculum from anywhere</h3>
+        <p>Families in the US, UK, Canada and beyond join live classes at times that suit their time zone. Fees for families abroad are quoted by our team.</p>
+      </div>
       <a class="btn btn-outline-light" href="{{ enquire_url }}?interest=international">Contact the Admin</a>
     </div>
   </div>

@@ -71,8 +71,8 @@ def test_programmes_overview(client):
     for text in (
         "Term Classes Programme",
         "Holiday Tuition",
-        "From <strong>₦30,000</strong> per term",
-        "From <strong>₦20,000</strong> per session",
+        "<span>Junior Secondary</span><strong>₦30,000</strong>",
+        '<span class="session-name">Summer/August</span><strong>₦60,000</strong>',
         'id="primary"',
         'id="secondary"',
         "Senior Secondary Art",
@@ -205,4 +205,5 @@ def test_menu_and_homepage_link_the_new_pages(client):
     ):
         assert f'href="{url}' in html or f'action="{url}"' in html, url
     assert 'name="class_code"' in html
-    assert "From <strong>₦30,000</strong> per term" in html
+    assert "<strong>₦30,000</strong><span>Term Classes, per term</span>" in html
+    assert '<span class="session-badge">DEC</span>' in html
