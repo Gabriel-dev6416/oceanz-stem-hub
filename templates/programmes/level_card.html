@@ -1,0 +1,9 @@
+{% load money %}
+<li class="card level-card">
+  <h4><a href="{{ level.get_absolute_url }}">{{ level.name }}</a></h4>
+  <p class="level-ages">{{ level.classes }} &middot; Ages {{ level.ages }}</p>
+  <ul class="ticks">
+    {% for subject in level.subjects.all %}<li>{{ subject.name }}</li>{% endfor %}
+  </ul>
+  <p class="programme-fee"><strong>{{ level.term_fee|naira }}</strong> per term</p>
+</li>

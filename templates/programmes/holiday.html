@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load contact money %}
+{% block description %}Holiday Tuition at OCEANZ STEM HUB: Easter/April, Summer/August and December sessions with exam preparation.{% endblock %}
+{% block content %}
+{% include "includes/page_header.html" with heading="Holiday Tuition" intro="Live classes and exam preparation in the Easter, Summer and December holidays." %}
+<section class="band band-tight">
+  <div class="container form-layout">
+    <div>
+      <section class="card" aria-labelledby="sessions-title">
+        <h2 id="sessions-title">Sessions and fees</h2>
+        <div class="table-wrap">
+          <table class="fee-table">
+            <thead><tr><th scope="col">Session</th><th scope="col">Dates</th><th scope="col">Fee</th></tr></thead>
+            <tbody>
+              {% for session in sessions %}<tr><th scope="row">{{ session.name }}</th><td>{{ session.dates|default:"Announced before the holiday" }}</td><td>{{ session.fee|naira }}</td></tr>{% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <p class="muted">The same fee for every level unless stated.</p>
+      </section>
+      <section class="card stacked" aria-labelledby="prep-title">
+        <h2 id="prep-title">What we prepare for</h2>
+        <ul class="ticks">
+          <li>Common Entrance</li>
+          <li>BECE</li>
+          <li>SSCE (WAEC and NECO)</li>
+          <li>JAMB/UTME</li>
+          <li>Mathematics and science Olympiads</li>
+        </ul>
+      </section>
+      <section class="card stacked" aria-labelledby="levels-title">
+        <h2 id="levels-title">Levels</h2>
+        <ul class="ticks">{% for level in levels %}<li><a href="{{ level.get_absolute_url }}">{{ level.name }}</a>: {{ level.classes }}</li>{% endfor %}</ul>
+        <p class="muted">Lessons are online, on-site or hybrid.</p>
+      </section>
+    </div>
+    <aside class="card aside-card">
+      <h2>Join a session</h2>
+      <p>Tell us which session and class you are interested in.</p>
+      <div class="quote-actions">
+        <a class="btn btn-accent" href="{% url 'messaging:enquire' %}">Enrol</a>
+        <a class="btn btn-whatsapp" href="{% whatsapp_link site_settings.whatsapp page_title %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}WhatsApp</a>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

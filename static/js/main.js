@@ -63,6 +63,57 @@
     });
   }
 
+  // Programmes dropdown (FR-WEB-17).
+  document.querySelectorAll("[data-sub-toggle]").forEach(function (button) {
+    var item = button.closest(".has-sub");
+    button.addEventListener("click", function () {
+      var open = item.classList.toggle("is-open");
+      button.setAttribute("aria-expanded", String(open));
+    });
+    document.addEventListener("click", function (event) {
+      if (!item.contains(event.target)) {
+        item.classList.remove("is-open");
+        button.setAttribute("aria-expanded", "false");
+      }
+    });
+    item.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        item.classList.remove("is-open");
+        button.setAttribute("aria-expanded", "false");
+        button.focus();
+      }
+    });
+  });
+
+  // Copy buttons for bank details (FR-PAY-05).
+  if (navigator.clipboard) {
+    document.querySelectorAll("[data-copy]").forEach(function (button) {
+      button.hidden = false;
+      button.addEventListener("click", function () {
+        function show(label) {
+          button.textContent = label;
+          setTimeout(function () {
+            button.textContent = "Copy";
+          }, 2500);
+        }
+        navigator.clipboard.writeText(button.dataset.copy).then(
+          function () {
+            show("Copied");
+          },
+          function () {
+            // Clipboard refused: select the text so it can be copied by hand.
+            var range = document.createRange();
+            range.selectNodeContents(button.previousElementSibling);
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            show("Selected");
+          }
+        );
+      });
+    });
+  }
+
   // Collapsed menu below 1200 px (FR-WEB-17).
   var menuToggle = document.querySelector("[data-menu-toggle]");
   var menu = document.getElementById("site-menu");

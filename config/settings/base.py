@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "csp",
     "apps.core",
     "apps.messaging",
+    "apps.programmes",
 ]
 
 MIDDLEWARE = [

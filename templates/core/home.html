@@ -98,6 +98,14 @@
   </div>
 </section>
 
+{# Band 6: curriculum explorer (FR-ENG-01) #}
+<section class="band" aria-labelledby="explorer-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="explorer-title" label="See what your child will learn" heading="Pick a class," accent="see the plan" intro="Choose a class and a term to see its subjects, topics and the skills your child will gain." %}
+    {% include "programmes/explorer_form.html" with form=explorer_form %}
+  </div>
+</section>
+
 {# Band 7: how we teach #}
 <section class="band" aria-labelledby="how-title">
   <div class="container">
@@ -122,16 +130,33 @@
   </div>
 </section>
 
+{# Band 8: programmes and pricing #}
+<section class="band band-mist" aria-labelledby="programmes-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="programmes-title" label="Programmes and pricing" heading="Two school" accent="programmes" intro="Clear fees in Naira, paid once after we confirm your child's class." %}
+    {% include "includes/programme_cards.html" %}
+    <p class="fee-note"><a href="{% url 'programmes:pricing' %}">See all fees</a></p>
+  </div>
+</section>
+
+{# Band 9: "More than coding" tertiary packages #}
+<section class="band section-dark" aria-labelledby="tertiary-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="tertiary-title" label="Tertiary packages" heading="More than" accent="coding" intro="Practical skills for older learners, each with a certificate. Fees are agreed with the Admin." %}
+    <ul class="chips chips-dark">
+      {% for package in packages %}<li><a href="{{ package.get_absolute_url }}">{{ package.name }}</a></li>{% endfor %}
+    </ul>
+    <div class="band-actions">
+      <a class="btn btn-outline-light" href="{% url 'programmes:tertiary' %}">Explore tertiary packages</a>
+    </div>
+  </div>
+</section>
+
 {# Band 10: simple enrolment in four steps (FR-WEB-02) #}
 <section class="band band-mist" aria-labelledby="steps-title">
   <div class="container">
     {% include "includes/section_head.html" with id="steps-title" label="Simple enrolment" heading="Start in" accent="four steps" intro="Registration is per term, and fees are paid once." %}
-    <ol class="steps">
-      <li><h3>Pay the registration fee</h3><p>A one-time {{ site_settings.registration_fee|naira }} per child.</p></li>
-      <li><h3>Complete the registration form</h3><p>A short form about the learner and the class.</p></li>
-      <li><h3>We confirm the class</h3><p>The Admin confirms the class and you pay the programme fee once.</p></li>
-      <li><h3>Start learning</h3><p>Receive the timetable and join your first class.</p></li>
-    </ol>
+    {% include "includes/enrol_steps.html" %}
     <div class="band-actions">
       <a class="btn btn-accent" href="{{ enquire_url }}">Enrol Now</a>
     </div>
@@ -160,13 +185,7 @@
   <div class="container grid grid-2 ready">
     <div>
       {% include "includes/section_head.html" with id="ready-title" label="Ready to learn online" heading="What your child" accent="needs" intro="For online lessons, please make sure your child has:" %}
-      <ul class="ticks ticks-light">
-        <li>A computer or smart device</li>
-        <li>Reliable internet</li>
-        <li>A quiet learning space</li>
-        <li>Learning materials</li>
-      </ul>
-      <p class="muted-light">No device or internet at home? Choose on-site lessons at the hub.</p>
+      {% include "includes/requirements.html" with light=True %}
     </div>
     <div class="card card-dark abroad">
       <p class="section-label">Families abroad</p>

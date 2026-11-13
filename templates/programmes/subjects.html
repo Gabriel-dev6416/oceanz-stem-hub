@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block description %}Subjects at OCEANZ STEM HUB: Mathematics, Science, Coding/Digital Technologies, and Computer Hardware, Robotics and GSM Repairs, from Primary 1 to Tertiary.{% endblock %}
+{% block content %}
+{% include "includes/page_header.html" with heading="Subjects" intro="STEM Education / M.S.C: Mathematics, Science and Coding/Digital Technologies, with technology woven into every subject." %}
+<section class="band band-tight" aria-labelledby="families-title">
+  <div class="container">
+    <h2 id="families-title" class="visually-hidden">Subject areas</h2>
+    <ul class="grid grid-4 card-list">
+      <li class="card"><h3>Mathematics</h3><p>From numbers and shapes to algebra, statistics and Further Mathematics, using spreadsheets and simple code along the way.</p></li>
+      <li class="card"><h3>Science</h3><p>Science with simulations and experiments; Basic Science at JSS; Physics, Chemistry and Biology at SS Science.</p></li>
+      <li class="card"><h3>Coding / Digital Technologies</h3><p>ScratchJr and Scratch, Python, web development, data analysis, robotics and competitive programming.</p></li>
+      <li class="card"><h3>Computer Hardware, Robotics and GSM Repairs</h3><p>Practical hardware and phone repair skills from Junior Secondary, and robotics in the SS Science stream.</p></li>
+    </ul>
+  </div>
+</section>
+
+<section class="band band-mist" aria-labelledby="pathway-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="pathway-title" label="The OCEANZ STEM pathway" heading="A ladder from Primary 1 to a" accent="tech career" intro="Each subject builds year on year. This is what it covers at each stage." %}
+    <div class="table-wrap">
+      <table class="fee-table pathway-table">
+        <thead><tr><th scope="col">Stage</th><th scope="col">Mathematics</th><th scope="col">Science</th><th scope="col">Coding / Digital Technologies</th><th scope="col">Hardware, Robotics and Engineering</th></tr></thead>
+        <tbody>
+          {% for stage in stages %}
+          <tr><th scope="row">{{ stage.name }}</th><td>{{ stage.mathematics }}</td><td>{{ stage.science }}</td><td>{{ stage.coding }}</td><td>{{ stage.hardware }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="by-level-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="by-level-title" label="Subjects by level" heading="What each level" accent="studies" %}
+    <ul class="grid grid-3 card-list">
+      {% for level in levels %}
+      <li class="card">
+        <h3><a href="{{ level.get_absolute_url }}">{{ level.name }}</a></h3>
+        <ul class="ticks">{% for subject in level.subjects.all %}<li>{{ subject.name }}{% if subject.detail %} ({{ subject.detail }}){% endif %}</li>{% endfor %}</ul>
+      </li>
+      {% endfor %}
+      <li class="card">
+        <h3><a href="{% url 'programmes:tertiary' %}">Tertiary</a></h3>
+        <ul class="ticks"><li>Mathematics and Statistics</li><li>Package-based digital skills</li></ul>
+      </li>
+    </ul>
+  </div>
+</section>
+{% endblock %}

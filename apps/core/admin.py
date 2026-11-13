@@ -20,7 +20,18 @@ class SiteSettingsAdmin(SingletonAdmin):
         ),
         ("Email and hub", {"fields": ("email", "address", "office_hours", "brand_line")}),
         ("Notice bar", {"fields": ("notice_text", "notice_link", "notice_link_text")}),
-        ("Fees", {"fields": ("registration_fee",)}),
+        (
+            "Fees and bank details",
+            {
+                "fields": (
+                    "registration_fee",
+                    "sibling_discount_percent",
+                    "bank_name",
+                    "bank_account_name",
+                    "bank_account_number",
+                )
+            },
+        ),
         (
             "Social media",
             {

@@ -79,6 +79,14 @@ class SiteSettings(SingletonModel):
         default=Decimal("1000"),
         help_text="One-time, non-refundable fee per child (FR-PAY-01).",
     )
+    sibling_discount_percent = models.PositiveSmallIntegerField(
+        "sibling discount (%)",
+        default=10,
+        help_text="On programme fees for the second and further children (FR-PAY-02).",
+    )
+    bank_name = models.CharField(max_length=80, default="First Bank of Nigeria")
+    bank_account_name = models.CharField(max_length=80, default="OCEANZ STEM HUB")
+    bank_account_number = models.CharField(max_length=20, default="2049402355")
     notice_text = models.CharField(
         max_length=160,
         blank=True,

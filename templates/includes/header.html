@@ -5,6 +5,21 @@
     <div class="site-menu" id="site-menu">
       <nav class="site-nav" aria-label="Main">
         <ul>
+          <li class="has-sub">
+            <a href="{% url 'programmes:overview' %}"{% if request.resolver_match.app_name == "programmes" and request.resolver_match.url_name != "pricing" %} aria-current="page"{% endif %}>Programmes</a>
+            <button type="button" class="sub-toggle" data-sub-toggle aria-expanded="false" aria-controls="programmes-menu">
+              <span class="visually-hidden">Show programmes</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <ul class="sub-menu" id="programmes-menu">
+              <li><a href="{% url 'programmes:overview' %}#primary">Primary</a></li>
+              <li><a href="{% url 'programmes:overview' %}#secondary">Secondary</a></li>
+              <li><a href="{% url 'programmes:tertiary' %}">Tertiary</a></li>
+              <li><a href="{% url 'programmes:holiday' %}">Holiday Tuition</a></li>
+              <li><a href="{% url 'programmes:subjects' %}">Subjects</a></li>
+            </ul>
+          </li>
+          <li><a href="{% url 'programmes:pricing' %}"{% if request.resolver_match.url_name == "pricing" %} aria-current="page"{% endif %}>Pricing</a></li>
           <li><a href="{{ contact_url }}"{% if request.path == contact_url %} aria-current="page"{% endif %}>Contact</a></li>
         </ul>
       </nav>

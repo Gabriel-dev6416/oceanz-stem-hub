@@ -2,11 +2,15 @@ import logging
 
 from django.core.cache import cache
 from django.db import connection
+from django.db.models import Min
 from django.http import HttpResponseServerError, JsonResponse
 from django.shortcuts import render
 from django.template import loader
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET
+
+from apps.programmes.forms import ExplorerForm
+from apps.programmes.models import HolidaySession, Level, TertiaryPackage
 
 from .models import FAQ, FeatureCard, HomePage, SiteSettings, Stat, Testimonial
 
@@ -58,6 +62,12 @@ def home(request):
             "stats": Stat.objects.filter(published=True),
             "faqs": FAQ.objects.filter(published=True),
             "testimonials": Testimonial.objects.filter(published=True, consent_confirmed=True),
+            "explorer_form": ExplorerForm(),
+            "packages": TertiaryPackage.objects.filter(published=True),
+            "term_from": Level.objects.filter(published=True).aggregate(m=Min("term_fee"))["m"],
+            "holiday_from": HolidaySession.objects.filter(published=True).aggregate(m=Min("fee"))[
+                "m"
+            ],
         },
     )
 

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load money %}
+{% block description %}OCEANZ STEM HUB programmes: the Term Classes Programme and Holiday Tuition for Primary and Secondary learners, and tertiary packages.{% endblock %}
+{% block content %}
+{% include "includes/page_header.html" with heading="Programmes" intro="Two school programmes for Primary and Secondary learners, and tertiary packages for older learners." %}
+
+<section class="band band-tight" aria-labelledby="programmes-title">
+  <div class="container">
+    <h2 id="programmes-title" class="visually-hidden">Our programmes</h2>
+    {% include "includes/programme_cards.html" %}
+  </div>
+</section>
+
+<section class="band band-mist" aria-labelledby="levels-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="levels-title" label="Learning levels" heading="Find your child's" accent="level" intro="Each level has its own subjects, chosen from the Nigerian curriculum." %}
+    <h3 class="group-title" id="primary">Primary</h3>
+    <ul class="grid grid-2 card-list">
+      {% for level in primary_levels %}{% include "programmes/level_card.html" %}{% endfor %}
+    </ul>
+    <h3 class="group-title" id="secondary">Secondary</h3>
+    <ul class="grid grid-3 card-list">
+      {% for level in secondary_levels %}{% include "programmes/level_card.html" %}{% endfor %}
+    </ul>
+    <h3 class="group-title" id="tertiary">Tertiary</h3>
+    <div class="card">
+      <p>{{ packages|length }} packages, including {% for package in packages|slice:":4" %}{{ package.name }}{% if not forloop.last %}, {% endif %}{% endfor %}. Fees are agreed with the Admin.</p>
+      <a href="{% url 'programmes:tertiary' %}">See all tertiary packages</a>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="compare-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="compare-title" label="Quick comparison" heading="Term Classes or" accent="Holiday Tuition?" %}
+    <div class="table-wrap">
+      <table class="fee-table compare-table">
+        <thead><tr><th scope="col"></th><th scope="col">Term Classes Programme</th><th scope="col">Holiday Tuition</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">When</th><td>During the school term</td><td>Easter/April, Summer/August and December</td></tr>
+          <tr><th scope="row">Focus</th><td>Homework guidance, difficult concepts, revision and projects</td><td>Live classes and exam preparation</td></tr>
+          <tr><th scope="row">Formats</th><td>Online, on-site, hybrid or home lessons</td><td>Online, on-site or hybrid</td></tr>
+          <tr><th scope="row">Fee</th><td>{% if term_from %}From {{ term_from|naira }} per term{% endif %}</td><td>{% if holiday_from %}From {{ holiday_from|naira }} per session{% endif %}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fee-note"><a href="{% url 'programmes:pricing' %}">See all fees</a></p>
+  </div>
+</section>
+
+<section class="band band-mist" aria-labelledby="join-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="join-title" label="How to join" heading="Start in" accent="four steps" %}
+    {% include "includes/enrol_steps.html" %}
+  </div>
+</section>
+
+<section class="band" aria-labelledby="needs-title">
+  <div class="container narrow">
+    {% include "includes/section_head.html" with id="needs-title" label="Requirements" heading="What your child" accent="needs" intro="For online lessons, please make sure your child has:" %}
+    {% include "includes/requirements.html" %}
+  </div>
+</section>
+
+{% if faqs %}
+<section class="band band-mist" aria-labelledby="faq-title">
+  <div class="container faq-container">
+    {% include "includes/section_head.html" with id="faq-title" label="FAQ" heading="Questions parents" accent="ask" %}
+    <div class="faq">
+      {% for faq in faqs %}<details><summary>{{ faq.question }}</summary><p>{{ faq.answer|linebreaksbr }}</p></details>{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

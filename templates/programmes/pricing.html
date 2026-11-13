@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load money %}
+{% block description %}OCEANZ STEM HUB fees in Naira: registration, Term Classes Programme, Holiday Tuition and how to pay.{% endblock %}
+{% block content %}
+{% include "includes/page_header.html" with heading="Pricing" intro="Clear fees in Naira. Pay once, after we confirm your child's class." %}
+
+<section class="band band-tight" aria-labelledby="registration-title">
+  <div class="container">
+    <div class="card fee-highlight">
+      <div>
+        <p class="section-label">Every new learner</p>
+        <h2 id="registration-title">Registration fee</h2>
+        <p>Paid once per child, before the registration form. Not refundable.</p>
+      </div>
+      <p class="fee-amount">{{ site_settings.registration_fee|naira }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="band band-mist" aria-labelledby="term-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="term-title" label="During the school term" heading="Term Classes" accent="Programme" intro="One fee per term covers all the subjects of the class." %}
+    <div class="table-wrap">
+      <table class="fee-table">
+        <thead><tr><th scope="col">Level</th><th scope="col">Classes</th><th scope="col">Fee per term</th></tr></thead>
+        <tbody>
+          {% for level in levels %}
+          <tr><th scope="row"><a href="{{ level.get_absolute_url }}">{{ level.name }}</a></th><td>{{ level.classes }}</td><td>{{ level.term_fee|naira }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="fee-note">Sibling discount: {{ site_settings.sibling_discount_percent }}% off the programme fee for the second and further children registered under the same parent or guardian for the same term. It does not apply to the registration fee.</p>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="holiday-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="holiday-title" label="During the school holidays" heading="Holiday" accent="Tuition" intro="The same fee for every level unless stated." %}
+    <div class="table-wrap">
+      <table class="fee-table">
+        <thead><tr><th scope="col">Session</th><th scope="col">Dates</th><th scope="col">Fee per session</th></tr></thead>
+        <tbody>
+          {% for session in sessions %}
+          <tr><th scope="row">{{ session.name }}</th><td>{{ session.dates|default:"Announced before the holiday" }}</td><td>{{ session.fee|naira }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="band band-mist" aria-labelledby="quote-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="quote-title" label="Priced by quote" heading="Talk to the" accent="Admin" intro="These fees depend on what each learner needs, so we agree them with you directly." %}
+    <div class="grid grid-3">
+      {% include "includes/quote_card.html" with title="Private tutoring" text="One-on-one lessons with a teacher matched to your child. Quoted per month and paid once a month, in advance." interest="private" %}
+      {% include "includes/quote_card.html" with title="Tertiary packages" text="After registration, our team gets back to you within 4 working days to discuss the package, its price and the equipment you need." interest="tertiary" %}
+      {% include "includes/quote_card.html" with title="Families abroad" text="Families in the US, UK, Canada and beyond: the quote includes registration and classes at times that suit your time zone." interest="international" %}
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="pay-title">
+  <div class="container grid grid-2 pay-grid">
+    <div>
+      {% include "includes/section_head.html" with id="pay-title" label="How payment works" heading="Pay" accent="once" %}
+      <ul class="ticks">
+        <li>We invoice the programme fee only after we confirm your child's class will run.</li>
+        <li>Fees are paid in full, once, before classes begin. There are no instalments.</li>
+        <li>Fees are not refundable after payment.</li>
+        <li>Private tutoring is paid once a month, in advance.</li>
+      </ul>
+    </div>
+    <div class="card bank-card" aria-labelledby="bank-title">
+      <h3 id="bank-title">Bank transfer details</h3>
+      <dl class="bank-details">
+        <div><dt>Account name</dt><dd><span>{{ site_settings.bank_account_name }}</span><button type="button" class="copy-btn" hidden data-copy="{{ site_settings.bank_account_name }}">Copy</button></dd></div>
+        <div><dt>Bank</dt><dd><span>{{ site_settings.bank_name }}</span><button type="button" class="copy-btn" hidden data-copy="{{ site_settings.bank_name }}">Copy</button></dd></div>
+        <div><dt>Account number</dt><dd><span class="account-number">{{ site_settings.bank_account_number }}</span><button type="button" class="copy-btn" hidden data-copy="{{ site_settings.bank_account_number }}">Copy</button></dd></div>
+      </dl>
+      <p class="muted">Pay only after we confirm your child's class, and keep your receipt.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

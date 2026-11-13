@@ -4,37 +4,14 @@ from django.conf import settings
 from django.core.validators import RegexValidator
 from django.db import models
 
+from apps.programmes.classes import CLASS_CHOICES, CLASS_LEVELS
+
 REFERENCE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"  # no 0/O or 1/I to avoid misreading
 
 visitor_phone_validator = RegexValidator(
     r"^\+?\d[\d \-]{6,18}$",
     "Enter a phone number, for example 0706 457 9661 or +234 706 457 9661.",
 )
-
-# Classes from the Nigerian school system (SRS 3.1). Primary 1-3 are listed separately for
-# parents and form the Junior Primary class. R2 replaces this list with the Admin-managed classes.
-CLASS_CHOICES = [
-    (
-        "Primary",
-        [(f"primary-{year}", f"Primary {year}") for year in range(1, 7)],
-    ),
-    (
-        "Secondary",
-        [
-            ("jss-1", "JSS 1"),
-            ("jss-2", "JSS 2"),
-            ("jss-3", "JSS 3"),
-            ("ss-1-science", "SS 1 Science"),
-            ("ss-1-art", "SS 1 Art"),
-            ("ss-2-science", "SS 2 Science"),
-            ("ss-2-art", "SS 2 Art"),
-            ("ss-3-science", "SS 3 Science"),
-            ("ss-3-art", "SS 3 Art"),
-        ],
-    ),
-    ("Tertiary", [("tertiary", "Tertiary package")]),
-]
-CLASS_LEVELS = {value: level for level, options in CLASS_CHOICES for value, _ in options}
 
 
 def new_reference():

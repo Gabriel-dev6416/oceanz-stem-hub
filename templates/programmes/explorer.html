@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block description %}See what your child will learn at OCEANZ STEM HUB: topics, subjects and the termly project for each class.{% endblock %}
+{% block content %}
+{% url 'messaging:enquire' as enquire_url %}
+{% include "includes/page_header.html" with heading="See what your child will learn" intro="Choose a class and a term." %}
+<section class="band band-tight">
+  <div class="container">
+    {% include "programmes/explorer_form.html" %}
+
+    {% if class_name %}
+    <div class="explorer-result">
+      <h2>{{ class_name }}, {{ term_name }}</h2>
+      {% if topics_by_subject %}
+        <div class="grid grid-2">
+          {% for subject, topics in topics_by_subject %}
+          <section class="card" aria-label="{{ subject }}">
+            <h3>{{ subject }}</h3>
+            <ol class="topic-list">
+              {% for topic in topics %}<li><span class="week">Week {{ topic.week }}</span> {{ topic.title }}{% if topic.objectives %}<p>{{ topic.objectives }}</p>{% endif %}</li>{% endfor %}
+            </ol>
+          </section>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="card notice-card">The weekly topics for {{ class_name }} are being prepared. Here is what the class covers this year.</p>
+      {% endif %}
+
+      {% if project %}
+      <div class="card stacked">
+        <h3>Termly project: {{ project.title }}</h3>
+        {% if project.description %}<p>{{ project.description }}</p>{% endif %}
+      </div>
+      {% endif %}
+
+      {% if level %}
+      <div class="card stacked">
+        <h3>Subjects</h3>
+        <ul class="ticks">{% for subject in level.subjects.all %}<li>{{ subject.name }}{% if subject.detail %} ({{ subject.detail }}){% endif %}</li>{% endfor %}</ul>
+        <h3>Skills gained</h3>
+        <dl class="pathway-list">
+          <div><dt>Mathematics</dt><dd>{{ level.stage.mathematics }}</dd></div>
+          <div><dt>Science</dt><dd>{{ level.stage.science }}</dd></div>
+          <div><dt>Coding / Digital Technologies</dt><dd>{{ level.stage.coding }}</dd></div>
+          <div><dt>Hardware, Robotics and Engineering</dt><dd>{{ level.stage.hardware }}</dd></div>
+        </dl>
+      </div>
+      {% endif %}
+
+      <div class="band-actions quote-actions">
+        <a class="btn btn-accent" href="{{ enquire_url }}">Enrol</a>
+        <a class="btn btn-primary" href="{{ enquire_url }}?interest=trial">Book a Free Trial Class</a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

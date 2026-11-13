@@ -1,0 +1,12 @@
+{% load contact %}
+<div class="card quote-card">
+  <h3>{{ title }}</h3>
+  <p>{{ text }}</p>
+  <p class="quote-price">Price: contact the Admin</p>
+  <div class="quote-actions">
+    <a class="btn btn-whatsapp btn-small" href="{% whatsapp_link site_settings.whatsapp title %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}WhatsApp</a>
+    <a class="btn btn-primary btn-small" href="mailto:{{ site_settings.email }}?subject={{ title|urlencode }}">Email</a>
+    <a class="btn btn-call btn-small" href="{{ site_settings.phone_primary|tel_link }}">{% include "icons/phone.html" %}Call</a>
+    <a class="quote-form-link" href="{% url 'messaging:enquire' %}?interest={{ interest }}">Or send an enquiry</a>
+  </div>
+</div>

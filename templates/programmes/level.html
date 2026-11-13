@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load contact money %}
+{% block description %}{{ level.name }} at OCEANZ STEM HUB: {{ level.classes }}. Subjects, delivery formats and fees.{% endblock %}
+{% block content %}
+{% include "includes/page_header.html" with heading=level.name intro=level.classes %}
+<section class="band band-tight">
+  <div class="container form-layout">
+    <div>
+      <section class="card" aria-labelledby="subjects-title">
+        <h2 id="subjects-title">Subjects</h2>
+        <ul class="ticks">
+          {% for subject in level.subjects.all %}<li><strong>{{ subject.name }}</strong>{% if subject.detail %}: {{ subject.detail }}{% endif %}</li>{% endfor %}
+        </ul>
+        {% if level.exams %}<p class="exam-note">Exam preparation: {{ level.exams }}</p>{% endif %}
+      </section>
+      <section class="card stacked" aria-labelledby="learn-title">
+        <h2 id="learn-title">What your child will learn</h2>
+        <dl class="pathway-list">
+          <div><dt>Mathematics</dt><dd>{{ level.stage.mathematics }}</dd></div>
+          <div><dt>Science</dt><dd>{{ level.stage.science }}</dd></div>
+          <div><dt>Coding / Digital Technologies</dt><dd>{{ level.stage.coding }}</dd></div>
+          <div><dt>Hardware, Robotics and Engineering</dt><dd>{{ level.stage.hardware }}</dd></div>
+        </dl>
+        <a href="{% url 'programmes:explorer' %}">See the weekly topics for a class</a>
+      </section>
+      <section class="card stacked" aria-labelledby="formats-title">
+        <h2 id="formats-title">How lessons are delivered</h2>
+        <ul class="ticks">
+          <li>Online: live classes inside the OCEANZ website</li>
+          <li>On-site: lessons at our hub in Abakaliki</li>
+          <li>Hybrid: online on weekdays, on-site every Saturday</li>
+          <li>Home lessons (Term Classes Programme): after school and at weekends in the Abakaliki area</li>
+        </ul>
+        <p class="muted">Your child learns in a class with a small group of 6 to 12, or one-on-one with private tutoring (priced by quote). The timetable is shared once the class is confirmed.</p>
+      </section>
+    </div>
+    <aside class="card aside-card">
+      <h2>Fees</h2>
+      <p class="fee-line">Term Classes Programme <strong>{{ level.term_fee|naira }}</strong> per term</p>
+      {% for session in sessions %}<p class="fee-line">Holiday Tuition, {{ session.name }} <strong>{{ session.fee|naira }}</strong></p>{% endfor %}
+      <p class="fee-line">Registration <strong>{{ site_settings.registration_fee|naira }}</strong> once</p>
+      <div class="quote-actions">
+        <a class="btn btn-accent" href="{% url 'messaging:enquire' %}">Enrol</a>
+        <a class="btn btn-whatsapp" href="{% whatsapp_link site_settings.whatsapp level.name %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}WhatsApp</a>
+      </div>
+      <p class="aside-note"><a href="{% url 'programmes:pricing' %}">Payment rules and bank details</a></p>
+    </aside>
+  </div>
+</section>
+{% endblock %}

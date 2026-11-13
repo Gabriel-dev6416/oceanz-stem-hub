@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load contact %}
+{% block description %}{{ package.name }} at OCEANZ STEM HUB: {{ package.focus }}.{% endblock %}
+{% block content %}
+{% include "includes/page_header.html" with heading=package.name intro=package.focus %}
+<section class="band band-tight">
+  <div class="container form-layout">
+    <div class="card">
+      <h2>About this package</h2>
+      <dl class="pathway-list">
+        <div><dt>What you learn</dt><dd>{{ package.focus }}</dd></div>
+        <div><dt>Delivery</dt><dd>{{ package.delivery }}</dd></div>
+        <div><dt>Assessment</dt><dd>A quiz every two weeks</dd></div>
+        <div><dt>Certificate</dt><dd>Awarded to learners who pass the quizzes and attend regularly</dd></div>
+      </dl>
+      <h2>How to join</h2>
+      <p>Pay the registration fee and complete the form. Within 4 working days our team contacts you to discuss the package, its price and the equipment you need, then sends a quote.</p>
+    </div>
+    <aside class="card aside-card">
+      <h2>Fee</h2>
+      <p>Priced by quote. Contact the Admin.</p>
+      <div class="quote-actions">
+        <a class="btn btn-accent" href="{% url 'messaging:enquire' %}?interest=tertiary">Ask about this package</a>
+        <a class="btn btn-whatsapp" href="{% whatsapp_link site_settings.whatsapp package.name %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}WhatsApp</a>
+      </div>
+      <h3 class="aside-heading">Other packages</h3>
+      <ul class="plain-list">{% for other in packages %}{% if other.pk != package.pk %}<li><a href="{{ other.get_absolute_url }}">{{ other.name }}</a></li>{% endif %}{% endfor %}</ul>
+    </aside>
+  </div>
+</section>
+{% endblock %}

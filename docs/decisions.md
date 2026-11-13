@@ -172,3 +172,19 @@ private media storage set up with R2.
 
 The FAQ starts with five unpublished drafts written from SRS v3.3 facts for the Project Owner
 to review and publish (v3.3 Appendix B item 25).
+
+## D-21 Programmes, Subjects and Pricing in step 2d
+
+- A `programmes` app holds the public catalogue: levels with subjects and Term Classes fees,
+  the STEM pathway, Holiday Tuition sessions and fees, tertiary packages, and curriculum topics
+  and termly projects. All of it is seeded from SRS v3.3 and edited in the admin. R2's academic
+  structure (sections, classes, streams, terms) links to it rather than replacing it.
+- Prices published: registration fee, Term Classes per level, Holiday Tuition per session,
+  sibling discount, and bank details with copy buttons. Private tutoring, tertiary packages
+  and families abroad show "Contact the Admin" cards and never a price (FR-PAY-13); their
+  internal guide prices are not stored in the website until the quotes module (R2).
+- Online card payment (Paystack) is not offered yet, so the Pricing page shows bank transfer
+  details and says to pay only after the class is confirmed. Paystack arrives with registration
+  in R2.
+- Curriculum explorer: until the weekly topics for a class are entered, it says so and shows the
+  class's subjects and the STEM pathway skills from the SRS, never invented topics.

@@ -1,0 +1,5 @@
+<form class="explorer-form card" method="get" action="{% url 'programmes:explorer' %}">
+  <div>{{ form.class_code.label_tag }}{{ form.class_code }}</div>
+  <div>{{ form.term.label_tag }}{{ form.term }}</div>
+  <button class="btn btn-accent" type="submit">Show me</button>
+</form>

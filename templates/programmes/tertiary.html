@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block description %}Tertiary packages at OCEANZ STEM HUB: programming, web development, data analysis, IoT/robotics, GSM repairs and more.{% endblock %}
+{% block content %}
+{% include "includes/page_header.html" with heading="Tertiary packages" intro="Practical digital and technical skills for older learners, with a certificate at the end of each package." %}
+<section class="band band-tight">
+  <div class="container">
+    <ul class="grid grid-3 card-list">
+      {% for package in packages %}
+      <li class="card package-card">
+        <h2><a href="{{ package.get_absolute_url }}">{{ package.name }}</a></h2>
+        <p>{{ package.focus }}</p>
+        <p class="level-ages">{{ package.delivery }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="card stacked">
+      <h2>How tertiary registration works</h2>
+      <p>Pay the registration fee and complete the form. Our team then gets back to you within 4 working days to discuss the package, its price and the equipment and requirements you need, and gives you a quote. Packages run in groups (cohorts), with a quiz every two weeks and a certificate for learners who pass.</p>
+      <a class="btn btn-accent" href="{% url 'messaging:enquire' %}?interest=tertiary">Ask about a package</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
