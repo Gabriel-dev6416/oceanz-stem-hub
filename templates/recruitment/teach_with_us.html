@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block description %}Teach with OCEANZ STEM HUB: join through the Teacher Academy or apply as an experienced teacher of Mathematics, Science, Coding and digital skills.{% endblock %}
+{% block content %}
+{% include "includes/page_header.html" with heading="Teach with us" intro="Help raise a generation of learners, teachers and professionals. We welcome teachers of Mathematics, Science, Coding and digital skills." %}
+
+<section class="band band-tight" aria-labelledby="routes-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="routes-title" label="Two ways to join" heading="Find your" accent="route" %}
+    <div class="grid grid-2">
+      <div class="card route-card">
+        <p class="section-label">Route 1</p>
+        <h3>Learn a skill and teach to earn</h3>
+        <p>For people trained by the OCEANZ Teacher Academy. Training runs on WhatsApp and Telegram. After training, graduates complete the recruitment form, and our team reviews each one before sending an invitation to teach.</p>
+      </div>
+      <div class="card route-card">
+        <p class="section-label">Route 2</p>
+        <h3>Already skilled? Apply to teach</h3>
+        <p>For experienced teachers. You apply online with your qualifications, a 2 to 3 minute introduction video and two referees, then have an interview with a 15-minute demonstration lesson. Applicants outside Nigeria are welcome.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band band-mist" aria-labelledby="looks-title">
+  <div class="container split">
+    <div>
+      {% include "includes/section_head.html" with id="looks-title" label="What we look for" heading="Great teachers," accent="strong values" %}
+      <ul class="why-list why-list-light">
+        <li>{% include "icons/ui.html" with name="check" %}Sound knowledge of Mathematics, Science, Coding or digital skills</li>
+        <li>{% include "icons/ui.html" with name="check" %}Clear, patient teaching for children, teenagers or adults</li>
+        <li>{% include "icons/ui.html" with name="check" %}Confidence with online teaching tools</li>
+        <li>{% include "icons/ui.html" with name="check" %}TRCN registration, where it applies</li>
+        <li>{% include "icons/ui.html" with name="check" %}A commitment to Consistency, Competence and Character</li>
+      </ul>
+    </div>
+    <div class="ladder-card">
+      <p class="ladder-title">Safeguarding statement</p>
+      <p>OCEANZ STEM HUB puts the safety of children first. Every teacher is verified (identity, qualifications, references and TRCN where it applies), interviewed or trained by our Academy, and agrees to our child-safeguarding code of conduct before teaching.</p>
+      <p>Teachers never message learners under 18 privately, and online one-on-one lessons with children are recorded.</p>
+      <a class="ladder-link" href="{% url 'legal:page' 'safeguarding' %}">Read the safeguarding policy</a>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="interest-title">
+  <div class="container form-layout">
+    <div>
+      {% include "includes/section_head.html" with id="interest-title" label="Express interest" heading="Tell us about" accent="you" intro="Leave your details and we will invite you when applications open." %}
+      <form class="form card" method="post">
+        {% csrf_token %}
+        {{ form }}
+        {% include "includes/turnstile.html" %}
+        <button class="btn btn-accent" type="submit">Send my details</button>
+      </form>
+    </div>
+    <aside class="card aside-card">
+      <h2>What happens next</h2>
+      <ol class="next-steps">
+        <li>We email you to confirm we have your details.</li>
+        <li>When applications open, we invite you to apply.</li>
+        <li>Our team reviews every application, and invites successful teachers to the platform.</li>
+      </ol>
+    </aside>
+  </div>
+</section>
+{% endblock %}

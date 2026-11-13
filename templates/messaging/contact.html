@@ -29,8 +29,10 @@
     </aside>
   </div>
   {% if site_settings.address %}
-  <div class="map-frame skeleton">
-    <iframe title="Map showing the OCEANZ STEM HUB location" src="https://www.google.com/maps?q={{ site_settings.address|urlencode }}&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  <div class="map-frame map-placeholder" data-map-src="https://www.google.com/maps?q={{ site_settings.address|urlencode }}&amp;output=embed">
+    <p>The map is provided by Google Maps, which may set its own cookies.</p>
+    <button type="button" class="btn btn-primary" data-map-load hidden>Show the map</button>
+    <a href="https://www.google.com/maps?q={{ site_settings.address|urlencode }}" rel="noopener" target="_blank">Open in Google Maps</a>
   </div>
   {% endif %}
 </section>

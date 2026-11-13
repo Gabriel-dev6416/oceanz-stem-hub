@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="message-page container">
+  <h1>Thank you, {{ name }}</h1>
+  <p>We have your details and have sent you a confirmation email. We will invite you when teacher applications open.</p>
+  <div class="message-actions">
+    <a class="btn btn-primary" href="{% url 'core:home' %}">Back to the homepage</a>
+    <a class="btn btn-accent" href="{% url 'core:about' %}">About OCEANZ</a>
+  </div>
+</section>
+{% endblock %}

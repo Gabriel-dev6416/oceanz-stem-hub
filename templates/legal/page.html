@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load legal_text %}
+{% block description %}{{ legal.summary }}{% endblock %}
+{% block content %}
+{% include "includes/page_header.html" with heading=legal.title intro=legal.summary %}
+<section class="band band-tight">
+  <div class="container narrow">
+    {% if legal.status == "draft" %}
+    <p class="card notice-card draft-notice">This policy is a draft under review and may change before it takes effect.</p>
+    {% endif %}
+    <article class="prose legal-body">
+      {{ legal.body|legal_body }}
+    </article>
+    <p class="muted legal-meta">Version {{ legal.version }}{% if legal.effective_date %}, effective {{ legal.effective_date|date:"j F Y" }}{% endif %}. Last updated {{ legal.updated_at|date:"j F Y" }}.</p>
+  </div>
+</section>
+{% endblock %}

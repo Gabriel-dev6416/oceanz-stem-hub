@@ -20,6 +20,19 @@
             </ul>
           </li>
           <li><a href="{% url 'programmes:pricing' %}"{% if request.resolver_match.url_name == "pricing" %} aria-current="page"{% endif %}>Pricing</a></li>
+          <li class="has-sub">
+            <a href="{% url 'core:about' %}"{% if request.resolver_match.url_name == "about" or request.resolver_match.url_name == "results" %} aria-current="page"{% endif %}>About</a>
+            <button type="button" class="sub-toggle" data-sub-toggle aria-expanded="false" aria-controls="about-menu">
+              <span class="visually-hidden">Show about pages</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <ul class="sub-menu" id="about-menu">
+              <li><a href="{% url 'core:about' %}">Our story</a></li>
+              {% if has_results %}<li><a href="{% url 'core:results' %}">Results</a></li>{% endif %}
+              <li><a href="{% url 'core:diaspora' %}">Families abroad</a></li>
+            </ul>
+          </li>
+          <li><a href="{% url 'recruitment:teach_with_us' %}"{% if request.resolver_match.app_name == "recruitment" %} aria-current="page"{% endif %}>Teach with us</a></li>
           <li><a href="{{ contact_url }}"{% if request.path == contact_url %} aria-current="page"{% endif %}>Contact</a></li>
         </ul>
       </nav>

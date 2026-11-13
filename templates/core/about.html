@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block description %}About OCEANZ STEM HUB: our vision, mission and C3 core values, how we teach, and our hub in Abakaliki.{% endblock %}
+{% block content %}
+{% include "includes/page_header.html" with heading="About OCEANZ STEM HUB" intro=site_settings.brand_line %}
+
+{% if about.story %}
+<section class="band band-tight" aria-labelledby="story-title">
+  <div class="container narrow">
+    {% include "includes/section_head.html" with id="story-title" label="Our story" heading="How OCEANZ" accent="began" %}
+    {% if about.founded_year %}<p class="exam-note">Founded in {{ about.founded_year }}</p>{% endif %}
+    <div class="prose">{{ about.story|linebreaks }}</div>
+  </div>
+</section>
+{% endif %}
+
+<section class="band{% if about.story %} band-mist{% else %} band-tight{% endif %}" aria-labelledby="purpose-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="purpose-title" label="Why we exist" heading="Vision and" accent="mission" %}
+    <div class="grid grid-2">
+      <div class="card purpose-card">
+        <span class="feature-icon">{% include "icons/ui.html" with name="globe" %}</span>
+        <h3>Our vision</h3>
+        <p>{{ about.vision }}</p>
+      </div>
+      <div class="card purpose-card">
+        <span class="feature-icon">{% include "icons/ui.html" with name="award" %}</span>
+        <h3>Our mission</h3>
+        <p>{{ about.mission }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band section-dark" aria-labelledby="values-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="values-title" label="Core values" heading="The Triple" accent="C's" intro="Everyone at OCEANZ, learners, parents and teachers, commits to three values." %}
+    <ul class="grid grid-3 card-list">
+      <li class="card card-dark value-card"><span class="value-letter">C</span><h3>Consistency</h3><p>Commitment to continuous learning, practice and improvement.</p></li>
+      <li class="card card-dark value-card"><span class="value-letter">C</span><h3>Competence</h3><p>Developing the knowledge, skills and ability to deliver excellence.</p></li>
+      <li class="card card-dark value-card"><span class="value-letter">C</span><h3>Character</h3><p>Upholding integrity, discipline, responsibility and good values.</p></li>
+    </ul>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="model-title">
+  <div class="container">
+    {% include "includes/section_head.html" with id="model-title" label="Our learning model" heading="Identify, nurture, empower," accent="lead" intro="Four stages guide every learner, built around the C3 values." %}
+    <div class="model">
+      <ol class="model-steps">
+        <li><span class="model-step">Identify</span><p>We find each learner's level and potential, and place them in the right class.</p></li>
+        <li><span class="model-step">Nurture</span><p>Small groups and verified teachers give close, patient support.</p></li>
+        <li><span class="model-step">Empower</span><p>Practical skills, hands-on projects and exam preparation build confidence.</p></li>
+        <li><span class="model-step">Lead</span><p>Learners grow into innovators, professionals and leaders in their fields.</p></li>
+      </ol>
+      <div class="c3-badge" aria-hidden="true">C<sup>3</sup></div>
+    </div>
+  </div>
+</section>
+
+<section class="band band-mist" aria-labelledby="hub-title">
+  <div class="container split">
+    <div>
+      {% include "includes/section_head.html" with id="hub-title" label="Our hub" heading="Learn with us in" accent="Abakaliki" intro="On-site lessons run every Saturday at our hub, and on other days by arrangement." %}
+      <ul class="icon-list">
+        {% if site_settings.address %}<li><span class="icon-chip">{% include "icons/ui.html" with name="map-pin" %}</span><span><strong>Address</strong>{{ site_settings.address }}</span></li>{% endif %}
+        <li><span class="icon-chip">{% include "icons/ui.html" with name="layers" %}</span><span><strong>Hybrid learning</strong>Online lessons on weekdays, on-site lessons every Saturday.</span></li>
+        <li><span class="icon-chip">{% include "icons/ui.html" with name="home" %}</span><span><strong>Home lessons</strong>After school and at weekends in the Abakaliki area.</span></li>
+      </ul>
+      <a class="btn btn-primary" href="{% url 'messaging:contact' %}">Visit or contact us {% include "icons/ui.html" with name="arrow-right" %}</a>
+    </div>
+    <div class="ladder-card">
+      <p class="ladder-title">Why families choose OCEANZ</p>
+      <ul class="why-list">
+        <li>{% include "icons/ui.html" with name="check" %}Lessons follow the Nigerian curriculum, with Common Entrance, BECE, WAEC, NECO and JAMB preparation</li>
+        <li>{% include "icons/ui.html" with name="check" %}Small groups of 6 to 12 with a supervising teacher</li>
+        <li>{% include "icons/ui.html" with name="check" %}Verified, safeguarding-trained teachers</li>
+        <li>{% include "icons/ui.html" with name="check" %}Online, on-site, hybrid or home lessons</li>
+        <li>{% include "icons/ui.html" with name="check" %}Hands-on projects and practical digital skills</li>
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,12 +1,14 @@
 from decimal import Decimal
 
 import pytest
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 
-from .models import FAQ, HomePage, SiteSettings, Stat, Testimonial
+from .models import FAQ, AboutPage, HomePage, SiteSettings, Stat, Testimonial
 from .templatetags.contact import tel_link, whatsapp_link
 from .templatetags.money import naira
+from .templatetags.seo import jsonld
 from .views import server_error
 
 
@@ -219,3 +221,102 @@ def test_naira_formatting():
     assert naira(Decimal("1000")) == "₦1,000"
     assert naira(Decimal("40000.00")) == "₦40,000"
     assert naira(Decimal("1500.5")) == "₦1,500.50"
+
+
+@pytest.mark.django_db
+def test_about_page(client):
+    html = client.get(reverse("core:about")).content.decode()
+
+    for text in (
+        "To raise a generation of knowledgeable learners",
+        "To identify, nurture and empower young minds",
+        "Consistency",
+        "Identify",
+        "Empower",
+        "#5 Gunning Rd",
+    ):
+        assert text in html, text
+    assert "Our story" not in html.split("<main")[1]
+
+    about = AboutPage.load()
+    about.story = "OCEANZ began in Abakaliki.\n\nWe started with coding clubs."
+    about.founded_year = 2024
+    about.save()
+    html = client.get(reverse("core:about")).content.decode()
+
+    assert "<p>We started with coding clubs.</p>" in html
+    assert "Founded in 2024" in html
+
+
+@pytest.mark.django_db
+def test_results_page_exists_only_with_published_stats(client):
+    assert client.get(reverse("core:results")).status_code == 404
+    assert 'href="/results/"' not in client.get(reverse("core:home")).content.decode()
+
+    Stat.objects.create(value="120", label="learners in 2026")
+
+    assert "<strong>120</strong>" in client.get(reverse("core:results")).content.decode()
+    assert 'href="/results/"' in client.get(reverse("core:home")).content.decode()
+
+
+@pytest.mark.django_db
+def test_diaspora_page(client):
+    html = client.get(reverse("core:diaspora")).content.decode()
+
+    assert "Keep your child on the Nigerian curriculum from anywhere" in html
+    assert "Priced by quote, including registration" in html
+    assert "?interest=international" in html
+    assert "₦" not in html.split("<main")[1].split("</main>")[0]
+
+
+@pytest.mark.django_db
+def test_seo_files(client):
+    robots = client.get("/robots.txt").content.decode()
+    assert "Sitemap: http://testserver/sitemap.xml" in robots
+    assert settings.ADMIN_URL not in robots
+
+    sitemap = client.get("/sitemap.xml").content.decode()
+    for path in (
+        "/about/",
+        "/pricing/",
+        "/programmes/junior-secondary/",
+        "/programmes/tertiary/web-development/",
+        "/privacy/",
+        "/teach-with-us/",
+    ):
+        assert f"<loc>http://testserver{path}</loc>" in sitemap, path
+
+    security = client.get("/.well-known/security.txt").content.decode()
+    assert "Contact: mailto:oceanzstemhub@gmail.com" in security
+    assert "Expires: " in security
+
+
+@pytest.mark.django_db
+def test_homepage_meta_and_structured_data(client):
+    html = client.get(reverse("core:home")).content.decode()
+
+    assert '<link rel="canonical" href="http://testserver/">' in html
+    assert 'property="og:title" content="OCEANZ STEM HUB"' in html
+    assert '"@type": "EducationalOrganization"' in html
+    assert '"FAQPage"' not in html
+
+    FAQ.objects.filter(question="How much is registration?").update(published=True)
+    assert '"@type": "FAQPage"' in client.get(reverse("core:home")).content.decode()
+
+
+def test_structured_data_cannot_break_out_of_the_script():
+    tag = jsonld({"name": "</script><script>alert(1)</script>"})
+
+    assert "</script><script>" not in tag
+    assert tag.endswith("</script>")
+    assert tag.count("</script>") == 1
+
+
+@pytest.mark.django_db
+def test_cookie_notice_and_map_consent(client):
+    html = client.get(reverse("messaging:contact")).content.decode()
+
+    assert "data-cookie-notice" in html
+    assert "<iframe" not in html
+    assert "data-map-src=" in html
+    assert "Show the map" in html

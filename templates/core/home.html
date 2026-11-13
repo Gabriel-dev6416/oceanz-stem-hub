@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% load contact money static %}
+{% load contact money seo static %}
 {% block title %}OCEANZ STEM HUB | {{ home.hero_title }}{% if home.hero_highlight %} / {{ home.hero_highlight }}{% endif %}{% endblock %}
+{% block structured_data %}{% jsonld structured_data %}{% endblock %}
 {% block content %}
 {% url 'messaging:enquire' as enquire_url %}
 
@@ -231,7 +232,10 @@
         <h3>Keep your child on the Nigerian curriculum from anywhere</h3>
         <p>Families in the US, UK, Canada and beyond join live classes at times that suit their time zone. Fees for families abroad are quoted by our team.</p>
       </div>
-      <a class="btn btn-outline-light" href="{{ enquire_url }}?interest=international">Contact the Admin</a>
+      <div class="quote-actions">
+        <a class="btn btn-outline-light" href="{{ enquire_url }}?interest=international">Contact the Admin</a>
+        <a class="ladder-link" href="{% url 'core:diaspora' %}">Learn more</a>
+      </div>
     </div>
   </div>
 </section>

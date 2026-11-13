@@ -15,6 +15,9 @@
           <li><a href="{% url 'programmes:subjects' %}">Subjects</a></li>
           <li><a href="{% url 'messaging:enquire' %}">Enrol Now</a></li>
           <li><a href="{% url 'messaging:enquire' %}?interest=trial">Book a free trial class</a></li>
+          <li><a href="{% url 'core:about' %}">About us</a></li>
+          <li><a href="{% url 'recruitment:teach_with_us' %}">Teach with us</a></li>
+          <li><a href="{% url 'core:diaspora' %}">Families abroad</a></li>
           <li><a href="{% url 'messaging:contact' %}">Contact</a></li>
         </ul>
       </div>
@@ -37,6 +40,15 @@
       </div>
       {% endif %}
     </div>
+    <ul class="legal-links">
+      <li><a href="{% url 'legal:page' 'privacy' %}">Privacy</a></li>
+      <li><a href="{% url 'legal:page' 'terms' %}">Terms</a></li>
+      <li><a href="{% url 'legal:page' 'no-refund-policy' %}">No-Refund Policy</a></li>
+      <li><a href="{% url 'legal:page' 'safeguarding' %}">Safeguarding</a></li>
+      <li><a href="{% url 'legal:page' 'academic-integrity' %}">Academic Integrity</a></li>
+      <li><a href="{% url 'legal:page' 'cookie-policy' %}">Cookies</a></li>
+      <li><a href="{% url 'legal:page' 'recording-policy' %}">Recording Policy</a></li>
+    </ul>
     <div class="footer-bottom">
       <p class="c3-words">Consistency &middot; Competence &middot; Character</p>
       <p>&copy; {% now "Y" %} OCEANZ STEM HUB. All rights reserved.</p>

@@ -238,3 +238,37 @@ class Testimonial(OrderedItem):
     def clean(self):
         if self.published and not self.consent_confirmed:
             raise ValidationError({"published": "Confirm consent before publishing."})
+
+
+class AboutPage(SingletonModel):
+    """About page content (FR-WEB-07). The story section shows only once it is written."""
+
+    vision = models.TextField(
+        default=(
+            "To raise a generation of knowledgeable learners, confident educators and competent "
+            "professionals who will thrive, innovate and lead in a world driven by Artificial "
+            "Intelligence, Science and Technology."
+        )
+    )
+    mission = models.TextField(
+        default=(
+            "To identify, nurture and empower young minds by equipping them with relevant "
+            "knowledge, practical skills, professional competence and strong character, "
+            "inspiring them to discover their potential, develop their gifts and become leaders "
+            "in their chosen fields."
+        )
+    )
+    story = models.TextField(
+        "our story",
+        blank=True,
+        help_text="The OCEANZ story, the meaning of the name and facts about the team. "
+        "Separate paragraphs with a blank line. Hidden while empty.",
+    )
+    founded_year = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "about page"
+        verbose_name_plural = "about page"
+
+    def __str__(self):
+        return "About page"

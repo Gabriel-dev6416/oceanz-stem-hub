@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load contact %}
+{% block description %}Nigerian families abroad: keep your child on the Nigerian curriculum with live OCEANZ STEM HUB classes at times that suit your time zone.{% endblock %}
+{% block content %}
+{% url 'messaging:enquire' as enquire_url %}
+{% include "includes/page_header.html" with heading="Keep your child on the Nigerian curriculum from anywhere" intro="Live classes in Mathematics, Science and Coding for Nigerian families in the US, UK, Canada and beyond." %}
+
+<section class="band band-tight" aria-labelledby="countries-title">
+  <div class="container">
+    <h2 id="countries-title" class="visually-hidden">Where our families live</h2>
+    <ul class="chips country-chips">
+      <li>United States</li><li>United Kingdom</li><li>Canada</li><li>Ireland</li><li>United Arab Emirates</li><li>And more</li>
+    </ul>
+    <ul class="grid grid-3 card-list">
+      <li class="card"><span class="feature-icon">{% include "icons/ui.html" with name="book" %}</span><h3>The Nigerian curriculum</h3><p>The same classes as in Nigeria, from Primary 1 to SS 3, with Common Entrance, BECE, WAEC, NECO and JAMB preparation.</p></li>
+      <li class="card"><span class="feature-icon">{% include "icons/ui.html" with name="globe" %}</span><h3>Times that suit you</h3><p>We arrange classes at times that work for your time zone, alongside Lagos time.</p></li>
+      <li class="card"><span class="feature-icon">{% include "icons/ui.html" with name="monitor" %}</span><h3>Live classes online</h3><p>Lessons run live inside the OCEANZ website, in a class or one-on-one.</p></li>
+    </ul>
+  </div>
+</section>
+
+<section class="band section-dark" aria-labelledby="fees-title">
+  <div class="container">
+    <div class="abroad-strip">
+      <span class="feature-icon">{% include "icons/ui.html" with name="wallet" %}</span>
+      <div>
+        <p class="section-label">Fees for families abroad</p>
+        <h2 id="fees-title">Priced by quote, including registration</h2>
+        <p>Tell us your child's class, your country and the times that suit you. Our team replies with a quote.</p>
+      </div>
+      <div class="quote-actions">
+        <a class="btn btn-accent" href="{{ enquire_url }}?interest=international">Contact the Admin</a>
+        <a class="btn btn-whatsapp" href="{% whatsapp_link site_settings.whatsapp page_title %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

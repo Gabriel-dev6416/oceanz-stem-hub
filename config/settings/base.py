@@ -27,10 +27,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    "django.contrib.sitemaps",
     "csp",
     "apps.core",
     "apps.messaging",
     "apps.programmes",
+    "apps.recruitment",
+    "apps.legal",
 ]
 
 MIDDLEWARE = [

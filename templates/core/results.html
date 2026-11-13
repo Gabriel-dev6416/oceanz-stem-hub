@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block description %}OCEANZ STEM HUB results and learner progress.{% endblock %}
+{% block content %}
+{% include "includes/page_header.html" with heading="Results" intro="Verified figures from our learners and classes." %}
+<section class="band band-tight">
+  <div class="container">
+    <ul class="stats">
+      {% for stat in stats %}<li><strong>{{ stat.value }}</strong><span>{{ stat.label }}</span></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}

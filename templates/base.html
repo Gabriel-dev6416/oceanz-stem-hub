@@ -6,6 +6,15 @@
   <title>{% block title %}{% if page_title %}{{ page_title }} | {% endif %}OCEANZ STEM HUB{% endblock %}</title>
   <meta name="description" content="{% block description %}OCEANZ STEM HUB teaches Mathematics, Science and Coding/Digital Technologies (M.S.C) to Primary, Secondary and Tertiary learners, online, on-site and hybrid.{% endblock %}">
   <meta name="theme-color" content="#070d2b">
+  <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OCEANZ STEM HUB">
+  <meta property="og:title" content="{% if page_title and page_title != 'Home' %}{{ page_title }} | {% endif %}OCEANZ STEM HUB">
+  <meta property="og:description" content="STEM Education / M.S.C: Mathematics, Science and Coding/Digital Technologies for Primary, Secondary and Tertiary learners, online, on-site, hybrid and at home.">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/apple-touch-icon.png' %}">
+  <meta name="twitter:card" content="summary">
+  {% block structured_data %}{% endblock %}
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32.png' %}">
   <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
   <link rel="preload" href="{% static 'fonts/manrope-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
@@ -20,5 +29,6 @@
   <main id="main" tabindex="-1">{% block content %}{% endblock %}</main>
   {% include "includes/footer.html" %}
   {% include "includes/contact_float.html" %}
+  {% include "includes/cookie_notice.html" %}
 </body>
 </html>

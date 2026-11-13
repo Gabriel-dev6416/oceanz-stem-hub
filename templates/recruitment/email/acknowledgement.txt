@@ -1,0 +1,12 @@
+{% autoescape off %}Hello {{ interest.name }},
+
+Thank you for your interest in teaching with OCEANZ STEM HUB. We have your details.
+
+When our teacher applications open, we will invite you to apply. The application asks for your qualifications, a short introduction video, two referees, and an interview with a short demonstration lesson.
+
+Subjects you chose: {{ interest.subject_names|join:", " }}
+
+OCEANZ STEM HUB
+Consistency, Competence, Character
+WhatsApp: {{ site.whatsapp }}
+{% endautoescape %}

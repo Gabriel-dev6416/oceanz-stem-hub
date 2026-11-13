@@ -12,7 +12,7 @@ from .models import Enquiry
 logger = logging.getLogger(__name__)
 
 
-def _send(subject, template, context, to, reply_to=None):
+def send_email(subject, template, context, to, reply_to=None):
     message = EmailMessage(
         subject=subject,
         body=render_to_string(template, context),
@@ -30,7 +30,7 @@ def _send(subject, template, context, to, reply_to=None):
 def send_acknowledgement(enquiry):
     """Confirms receipt to the enquirer with the reference number (FR-COM-01)."""
     site = SiteSettings.load()
-    return _send(
+    return send_email(
         f"We received your enquiry {enquiry.reference}",
         "messaging/email/acknowledgement.txt",
         {"enquiry": enquiry, "site": site},
@@ -42,7 +42,7 @@ def send_acknowledgement(enquiry):
 def notify_staff(enquiry):
     """Tells the OCEANZ inbox about a new enquiry."""
     site = SiteSettings.load()
-    return _send(
+    return send_email(
         f"New enquiry {enquiry.reference}: {enquiry.get_enquiry_type_display()}",
         "messaging/email/staff_notification.txt",
         {"enquiry": enquiry},
@@ -55,7 +55,7 @@ def send_reply(reply):
     """Emails a back-office reply to the enquirer and records when it was sent."""
     enquiry = reply.enquiry
     site = SiteSettings.load()
-    sent = _send(
+    sent = send_email(
         f"Re: your enquiry {enquiry.reference}",
         "messaging/email/reply.txt",
         {"enquiry": enquiry, "reply": reply, "site": site},

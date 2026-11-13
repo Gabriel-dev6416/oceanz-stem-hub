@@ -114,6 +114,43 @@
     });
   }
 
+  // Cookie notice (FR-WEB-12): shown until the visitor closes it.
+  var cookieNotice = document.querySelector("[data-cookie-notice]");
+  if (cookieNotice) {
+    var seen = null;
+    try {
+      seen = localStorage.getItem("cookieNotice");
+    } catch (e) {
+      // Storage unavailable: the notice shows on each page.
+    }
+    if (!seen) {
+      cookieNotice.classList.add("is-visible");
+    }
+    cookieNotice.querySelector("[data-cookie-ok]").addEventListener("click", function () {
+      cookieNotice.classList.remove("is-visible");
+      try {
+        localStorage.setItem("cookieNotice", "seen");
+      } catch (e) {
+        // Storage unavailable: closed for this page only.
+      }
+    });
+  }
+
+  // Google Maps loads only when the visitor asks for it, because it sets its own cookies.
+  document.querySelectorAll("[data-map-src]").forEach(function (frame) {
+    var button = frame.querySelector("[data-map-load]");
+    button.hidden = false;
+    button.addEventListener("click", function () {
+      var iframe = document.createElement("iframe");
+      iframe.src = frame.dataset.mapSrc;
+      iframe.title = "Map showing the OCEANZ STEM HUB location";
+      iframe.referrerPolicy = "no-referrer-when-downgrade";
+      frame.classList.remove("map-placeholder");
+      frame.classList.add("skeleton");
+      frame.replaceChildren(iframe);
+    });
+  });
+
   // Collapsed menu below 1200 px (FR-WEB-17).
   var menuToggle = document.querySelector("[data-menu-toggle]");
   var menu = document.getElementById("site-menu");

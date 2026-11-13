@@ -1,0 +1,9 @@
+{% autoescape off %}New expression of interest from the Teach with us page
+
+Name: {{ interest.name }}
+Email: {{ interest.email }}
+WhatsApp: {{ interest.whatsapp }}
+Subjects: {{ interest.subject_names|join:", " }}
+
+Open it in the back-office under Teacher recruitment.
+{% endautoescape %}

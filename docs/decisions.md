@@ -203,3 +203,25 @@ School homepage (SRS reference model), restyled for OCEANZ and with OCEANZ conte
 - Split light bands with icon lists and a framed card with an offset colour block; glowing dark
   programme panels with fee chips and Holiday Tuition session tiles with month badges; centred
   steps joined by a dashed line; icon cards for the requirements; one icon set for the site.
+
+## D-23 Step 2e: About, Teach with us, families abroad, legal pages, cookies and SEO
+
+- About (FR-WEB-07): Vision and Mission from SRS v3.3 (editable), the C³ values, the learning
+  model (Identify, Nurture, Empower, Lead) and the hub. The story and founding year show only
+  once the Owner writes them. Results (FR-WEB-06) is a page only when real figures are
+  published; the menu link appears with it. "Our teachers" arrives with teacher profiles in R2.
+- Teach with us (FR-WEB-15, R1): the two recruitment routes, what OCEANZ looks for, the
+  safeguarding statement and an Express interest form (name, email, WhatsApp, subjects) with
+  Turnstile, rate limiting and emails. Records sit in a `recruitment` app with a status, ready
+  for the R2 invitation to apply.
+- Families abroad (FR-ENG-12): country names instead of flag images, and fees by quote only.
+- Legal pages (FR-WEB-09): all seven are editable drafts written only from SRS v3.3 rules. A
+  draft shows an "under review" notice until the Owner marks it approved after legal review
+  (v3.3 Appendix B item 22). Text is stored as plain text and always escaped.
+- Cookies (FR-WEB-12): the site sets only essential cookies, so the notice informs and links
+  the Cookie Policy. Google Maps sets its own cookies, so the map loads only when the visitor
+  presses "Show the map" (with a plain link to Google Maps as an alternative).
+- SEO (SRS 8.5): canonical URLs, Open Graph tags, sitemap.xml, robots.txt (which never lists
+  the private admin path), /.well-known/security.txt, and schema.org EducationalOrganization
+  plus FAQPage (when FAQs are published) on the homepage, escaped so admin text cannot break
+  out of the script element.

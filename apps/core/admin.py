@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import FAQ, FeatureCard, HomePage, SiteSettings, Stat, Testimonial
+from .models import FAQ, AboutPage, FeatureCard, HomePage, SiteSettings, Stat, Testimonial
 
 
 class SingletonAdmin(admin.ModelAdmin):
@@ -78,3 +78,8 @@ class FAQAdmin(OrderedAdmin):
 class TestimonialAdmin(OrderedAdmin):
     list_display = ("name", "relation", "consent_confirmed", "order", "published")
     list_editable = ("order",)
+
+
+@admin.register(AboutPage)
+class AboutPageAdmin(SingletonAdmin):
+    fields = ("vision", "mission", "story", "founded_year")
