@@ -158,3 +158,17 @@ Corrections made to the work already built:
 - Loading: the site is server-rendered, so pages arrive complete. Skeleton placeholders
   (NFR-22) are used for parts that load afterwards: the map now, and photos, the carousel and
   dashboard panels as they are added.
+
+## D-20 Homepage bands in step 2c
+
+The homepage follows the 14-band order of FR-WEB-01. Built in step 2c: header, hero, trust strip
+with the C³ values (feature cards until real stats are published), who we teach, subjects, how
+we teach, the four enrolment steps, testimonials (only when consented and published), ready to
+learn online with the families-abroad strip, FAQ (only published questions) and the final call
+to action. Added in step 2d with the pages they link to: the curriculum explorer, programmes
+and pricing, and "More than coding" tertiary packages. Hidden until real content exists:
+results and the project showcase, teachers, and the hero photo carousel, which also needs the
+private media storage set up with R2.
+
+The FAQ starts with five unpublished drafts written from SRS v3.3 facts for the Project Owner
+to review and publish (v3.3 Appendix B item 25).

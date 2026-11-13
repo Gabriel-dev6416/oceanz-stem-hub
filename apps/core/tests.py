@@ -1,8 +1,12 @@
+from decimal import Decimal
+
 import pytest
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 
-from .models import HomePage, SiteSettings
+from .models import FAQ, HomePage, SiteSettings, Stat, Testimonial
 from .templatetags.contact import tel_link, whatsapp_link
+from .templatetags.money import naira
 from .views import server_error
 
 
@@ -136,3 +140,82 @@ def test_contact_links():
     link = whatsapp_link("+234 706 457 9661", "Pricing")
     assert link.startswith("https://wa.me/2347064579661?text=Hello%20OCEANZ%20STEM%20HUB")
     assert "Pricing%20page" in link
+
+
+@pytest.mark.django_db
+def test_homepage_bands_follow_srs_v3_3(client):
+    html = client.get(reverse("core:home")).content.decode()
+
+    for text in (
+        "Live online classes",
+        "Weekly reports to parents",
+        "Our core values: C<sup>3</sup>",
+        "Who we teach",
+        "SS 1 to 3, Science and Art",
+        "Computer Hardware and GSM Repairs",
+        "Home lessons",
+        "Pay the registration fee",
+        "A one-time ₦1,000 per child.",
+        "A quiet learning space",
+        "?interest=international",
+        "?interest=private",
+    ):
+        assert text in html, text
+
+
+@pytest.mark.django_db
+def test_stats_replace_feature_cards_once_published(client):
+    assert "Live online classes" in client.get(reverse("core:home")).content.decode()
+
+    Stat.objects.create(value="250+", label="learners taught")
+    html = client.get(reverse("core:home")).content.decode()
+
+    assert "<strong>250+</strong>" in html
+    assert "Live online classes" not in html
+
+
+@pytest.mark.django_db
+def test_faq_drafts_stay_hidden_until_published(client):
+    assert FAQ.objects.filter(published=False).count() == 5
+    assert 'id="faq"' not in client.get(reverse("core:home")).content.decode()
+
+    FAQ.objects.filter(question="How much is registration?").update(published=True)
+    html = client.get(reverse("core:home")).content.decode()
+
+    assert 'id="faq"' in html
+    assert "How much is registration?" in html
+    assert "Who can learn at OCEANZ STEM HUB?" not in html
+
+
+@pytest.mark.django_db
+def test_testimonials_need_consent_and_publishing(client):
+    item = Testimonial(quote="My son loves coding now.", name="Ngozi", published=True)
+    with pytest.raises(ValidationError):
+        item.full_clean()
+
+    item.consent_confirmed = True
+    item.full_clean()
+    item.save()
+
+    assert "My son loves coding now." in client.get(reverse("core:home")).content.decode()
+
+
+@pytest.mark.django_db
+def test_notice_bar_shows_only_when_set(client):
+    assert "notice-bar" not in client.get(reverse("core:home")).content.decode()
+
+    site = SiteSettings.load()
+    site.notice_text = "Second term registration is open"
+    site.notice_link = "/enquire/"
+    site.save()
+    html = client.get(reverse("messaging:contact")).content.decode()
+
+    assert "Second term registration is open" in html
+    assert f'data-notice-id="{site.notice_id}"' in html
+    assert 'href="/enquire/"' in html
+
+
+def test_naira_formatting():
+    assert naira(Decimal("1000")) == "₦1,000"
+    assert naira(Decimal("40000.00")) == "₦40,000"
+    assert naira(Decimal("1500.5")) == "₦1,500.50"

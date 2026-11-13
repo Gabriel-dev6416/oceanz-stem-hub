@@ -1,0 +1,10 @@
+{% if site_settings.notice_text %}
+<div class="notice-bar" data-notice-id="{{ site_settings.notice_id }}" role="region" aria-label="Notice">
+  <div class="container notice-inner">
+    <p>{{ site_settings.notice_text }}{% if site_settings.notice_link %} <a href="{{ site_settings.notice_link }}">{{ site_settings.notice_link_text|default:"Learn more" }}</a>{% endif %}</p>
+    <button type="button" class="notice-close" data-notice-close aria-label="Dismiss notice">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+{% endif %}

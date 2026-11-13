@@ -1,0 +1,5 @@
+<header class="section-head">
+  <p class="section-label">{{ label }}</p>
+  <h2{% if id %} id="{{ id }}"{% endif %}>{{ heading }} <span class="accent">{{ accent }}</span></h2>
+  {% if intro %}<p class="section-intro">{{ intro }}</p>{% endif %}
+</header>

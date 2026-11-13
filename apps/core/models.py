@@ -1,4 +1,8 @@
+import hashlib
+from decimal import Decimal
+
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models
 
@@ -68,6 +72,22 @@ class SiteSettings(SingletonModel):
     tiktok_url = models.URLField("TikTok URL", blank=True)
     linkedin_url = models.URLField("LinkedIn URL", blank=True)
     whatsapp_channel_url = models.URLField("WhatsApp channel URL", blank=True)
+    registration_fee = models.DecimalField(
+        "registration fee (naira)",
+        max_digits=10,
+        decimal_places=2,
+        default=Decimal("1000"),
+        help_text="One-time, non-refundable fee per child (FR-PAY-01).",
+    )
+    notice_text = models.CharField(
+        max_length=160,
+        blank=True,
+        help_text="Shown in a bar above the header on every page. Leave empty to hide it.",
+    )
+    notice_link = models.CharField(
+        max_length=200, blank=True, help_text="Optional page address, e.g. /enquire/"
+    )
+    notice_link_text = models.CharField(max_length=40, blank=True, default="Learn more")
     brand_line = models.CharField(
         max_length=160,
         default="We don't just raise learners; we raise teachers, professionals, innovators "
@@ -80,6 +100,11 @@ class SiteSettings(SingletonModel):
 
     def __str__(self):
         return "Site settings"
+
+    @property
+    def notice_id(self):
+        """Changes whenever the notice text changes, so a new notice shows again."""
+        return hashlib.sha256(self.notice_text.encode()).hexdigest()[:12]
 
     @property
     def call_lines(self):
@@ -123,3 +148,85 @@ class HomePage(SingletonModel):
 
     def __str__(self):
         return "Homepage"
+
+
+class OrderedItem(models.Model):
+    order = models.PositiveSmallIntegerField(default=0)
+    published = models.BooleanField(default=True)
+
+    class Meta:
+        abstract = True
+        ordering = ["order", "id"]
+
+
+class FeatureCard(OrderedItem):
+    """Trust-strip cards on the homepage (FR-WEB-01 band 3)."""
+
+    class Icon(models.TextChoices):
+        LIVE = "live", "Live class"
+        ON_SITE = "on-site", "Calendar (on-site Saturdays)"
+        VERIFIED = "verified", "Shield (verified teachers)"
+        REPORTS = "reports", "Document (reports)"
+
+    title = models.CharField(max_length=60)
+    text = models.CharField(max_length=200)
+    icon = models.CharField(max_length=10, choices=Icon.choices)
+
+    class Meta(OrderedItem.Meta):
+        pass
+
+    def __str__(self):
+        return self.title
+
+
+class Stat(OrderedItem):
+    """A real, verifiable figure (FR-WEB-06). The stats bar replaces the feature cards once one
+    is published."""
+
+    value = models.CharField(max_length=20, help_text="For example 250+ or 98%.")
+    label = models.CharField(max_length=80)
+
+    class Meta(OrderedItem.Meta):
+        pass
+
+    def __str__(self):
+        return f"{self.value} {self.label}"
+
+
+class FAQ(OrderedItem):
+    """Frequently asked question. Only published questions appear on the site."""
+
+    question = models.CharField(max_length=200)
+    answer = models.TextField()
+    published = models.BooleanField(default=False)
+
+    class Meta(OrderedItem.Meta):
+        verbose_name = "FAQ"
+        verbose_name_plural = "FAQs"
+
+    def __str__(self):
+        return self.question
+
+
+class Testimonial(OrderedItem):
+    """Genuine, consented and approved testimonial (FR-WEB-11)."""
+
+    quote = models.TextField()
+    name = models.CharField(
+        max_length=60, help_text="First name only for anyone under 18 (FR-SAF-05)."
+    )
+    relation = models.CharField(max_length=80, blank=True, help_text="e.g. Parent, JSS 2")
+    consent_confirmed = models.BooleanField(
+        default=False, help_text="The person agreed in writing to this testimonial being shown."
+    )
+    published = models.BooleanField(default=False)
+
+    class Meta(OrderedItem.Meta):
+        pass
+
+    def __str__(self):
+        return f"{self.name}: {self.quote[:40]}"
+
+    def clean(self):
+        if self.published and not self.consent_confirmed:
+            raise ValidationError({"published": "Confirm consent before publishing."})

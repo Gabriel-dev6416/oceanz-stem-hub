@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import HomePage, SiteSettings
+from .models import FAQ, FeatureCard, HomePage, SiteSettings, Stat, Testimonial
 
 
 class SingletonAdmin(admin.ModelAdmin):
@@ -19,6 +19,8 @@ class SiteSettingsAdmin(SingletonAdmin):
             {"fields": ("whatsapp", "phone_primary", "phone_secondary", "phone_tertiary")},
         ),
         ("Email and hub", {"fields": ("email", "address", "office_hours", "brand_line")}),
+        ("Notice bar", {"fields": ("notice_text", "notice_link", "notice_link_text")}),
+        ("Fees", {"fields": ("registration_fee",)}),
         (
             "Social media",
             {
@@ -39,3 +41,29 @@ class SiteSettingsAdmin(SingletonAdmin):
 @admin.register(HomePage)
 class HomePageAdmin(SingletonAdmin):
     fieldsets = (("Hero", {"fields": ("hero_badge", "hero_title", "hero_highlight", "hero_text")}),)
+
+
+class OrderedAdmin(admin.ModelAdmin):
+    list_editable = ("order", "published")
+
+
+@admin.register(FeatureCard)
+class FeatureCardAdmin(OrderedAdmin):
+    list_display = ("title", "icon", "order", "published")
+
+
+@admin.register(Stat)
+class StatAdmin(OrderedAdmin):
+    list_display = ("value", "label", "order", "published")
+
+
+@admin.register(FAQ)
+class FAQAdmin(OrderedAdmin):
+    list_display = ("question", "order", "published")
+    search_fields = ("question", "answer")
+
+
+@admin.register(Testimonial)
+class TestimonialAdmin(OrderedAdmin):
+    list_display = ("name", "relation", "consent_confirmed", "order", "published")
+    list_editable = ("order",)

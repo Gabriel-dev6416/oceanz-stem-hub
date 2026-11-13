@@ -15,6 +15,7 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
+  {% include "includes/notice_bar.html" %}
   {% include "includes/header.html" %}
   <main id="main" tabindex="-1">{% block content %}{% endblock %}</main>
   {% include "includes/footer.html" %}

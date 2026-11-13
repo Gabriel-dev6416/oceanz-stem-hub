@@ -41,6 +41,28 @@
   });
   showTheme(savedTheme());
 
+  // Dismissible notice bar (FR-WEB-19). A changed notice gets a new id and shows again.
+  var notice = document.querySelector("[data-notice-id]");
+  if (notice) {
+    var dismissed = null;
+    try {
+      dismissed = localStorage.getItem("noticeDismissed");
+    } catch (e) {
+      // Storage unavailable: the notice shows on every page.
+    }
+    if (dismissed !== notice.dataset.noticeId) {
+      notice.classList.add("is-visible");
+    }
+    notice.querySelector("[data-notice-close]").addEventListener("click", function () {
+      notice.classList.remove("is-visible");
+      try {
+        localStorage.setItem("noticeDismissed", notice.dataset.noticeId);
+      } catch (e) {
+        // Storage unavailable: dismissed for this page only.
+      }
+    });
+  }
+
   // Collapsed menu below 1200 px (FR-WEB-17).
   var menuToggle = document.querySelector("[data-menu-toggle]");
   var menu = document.getElementById("site-menu");

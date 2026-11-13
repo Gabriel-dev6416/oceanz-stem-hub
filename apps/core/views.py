@@ -8,7 +8,7 @@ from django.template import loader
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET
 
-from .models import HomePage, SiteSettings
+from .models import FAQ, FeatureCard, HomePage, SiteSettings, Stat, Testimonial
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +48,18 @@ def health(request):
 
 
 def home(request):
-    return render(request, "core/home.html", {"page_title": "Home", "home": HomePage.load()})
+    return render(
+        request,
+        "core/home.html",
+        {
+            "page_title": "Home",
+            "home": HomePage.load(),
+            "features": FeatureCard.objects.filter(published=True),
+            "stats": Stat.objects.filter(published=True),
+            "faqs": FAQ.objects.filter(published=True),
+            "testimonials": Testimonial.objects.filter(published=True, consent_confirmed=True),
+        },
+    )
 
 
 def server_error(request):
