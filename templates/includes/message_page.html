@@ -5,6 +5,6 @@
   <p>{{ message }}</p>
   <div class="message-actions">
     <a class="btn btn-primary" href="{% url 'core:home' %}">Go to the homepage</a>
-    <a class="btn btn-accent" href="{% whatsapp_link site_settings.whatsapp_primary %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}Chat on WhatsApp</a>
+    <a class="btn btn-whatsapp" href="{% whatsapp_link site_settings.whatsapp %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}Chat on WhatsApp</a>
   </div>
 </section>

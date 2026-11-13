@@ -8,6 +8,14 @@ from .models import Enquiry
 
 SESSION_KEY = "enquiry_reference"
 
+# ?interest= values used by buttons across the site (FR-WEB-13, FR-PAY-13).
+INTEREST_LINKS = {
+    "trial": Enquiry.Type.FREE_TRIAL,
+    "private": Enquiry.Type.PRIVATE_TUTORING,
+    "tertiary": Enquiry.Type.TERTIARY,
+    "international": Enquiry.Type.INTERNATIONAL,
+}
+
 
 def _rate(group, request):
     return settings.ENQUIRY_RATE
@@ -33,8 +41,7 @@ def _handle(request, form_class, template, context, initial=None):
 
 @ratelimit(key="ip", rate=_rate, method="POST", block=False)
 def enquire(request):
-    trial = request.GET.get("interest") == "trial"
-    interest = Enquiry.Type.FREE_TRIAL if trial else Enquiry.Type.ENROLMENT
+    interest = INTEREST_LINKS.get(request.GET.get("interest"), Enquiry.Type.ENROLMENT)
     return _handle(
         request,
         EnrolmentEnquiryForm,

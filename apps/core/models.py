@@ -8,6 +8,9 @@ phone_validator = RegexValidator(
 )
 
 
+DEFAULT_ADDRESS = "#5 Gunning Rd, Abakaliki, Ebonyi State, Nigeria"
+
+
 class SingletonModel(models.Model):
     """A model with exactly one row (pk=1), cached and edited from the back-office."""
 
@@ -33,22 +36,30 @@ class SingletonModel(models.Model):
 
 
 class SiteSettings(SingletonModel):
-    """Contact details and links shown on every public page (FR-WEB-10, FR-COM-03)."""
+    """Contact details and links shown on every public page (FR-WEB-10, FR-WEB-20, FR-COM-03)."""
 
-    whatsapp_primary = models.CharField(
-        max_length=20, default="+234 706 457 9661", validators=[phone_validator]
-    )
-    whatsapp_secondary = models.CharField(
-        max_length=20, blank=True, default="+234 705 526 0308", validators=[phone_validator]
+    whatsapp = models.CharField(
+        "WhatsApp number", max_length=20, default="+234 706 457 9661", validators=[phone_validator]
     )
     phone_primary = models.CharField(
-        max_length=20, default="+234 706 457 9661", validators=[phone_validator]
+        "call line 1", max_length=20, default="+234 706 457 9661", validators=[phone_validator]
     )
     phone_secondary = models.CharField(
-        max_length=20, blank=True, default="+234 705 526 0308", validators=[phone_validator]
+        "call line 2",
+        max_length=20,
+        blank=True,
+        default="+234 705 526 0308",
+        validators=[phone_validator],
+    )
+    phone_tertiary = models.CharField(
+        "call line 3",
+        max_length=20,
+        blank=True,
+        default="+234 902 835 3019",
+        validators=[phone_validator],
     )
     email = models.EmailField(default="oceanzstemhub@gmail.com")
-    address = models.TextField("hub address", blank=True)
+    address = models.TextField("hub address", blank=True, default=DEFAULT_ADDRESS)
     office_hours = models.CharField(max_length=120, blank=True)
     facebook_url = models.URLField(blank=True)
     instagram_url = models.URLField(blank=True)
@@ -56,6 +67,12 @@ class SiteSettings(SingletonModel):
     youtube_url = models.URLField(blank=True)
     tiktok_url = models.URLField("TikTok URL", blank=True)
     linkedin_url = models.URLField("LinkedIn URL", blank=True)
+    whatsapp_channel_url = models.URLField("WhatsApp channel URL", blank=True)
+    brand_line = models.CharField(
+        max_length=160,
+        default="We don't just raise learners; we raise teachers, professionals, innovators "
+        "and leaders.",
+    )
 
     class Meta:
         verbose_name = "site settings"
@@ -63,6 +80,10 @@ class SiteSettings(SingletonModel):
 
     def __str__(self):
         return "Site settings"
+
+    @property
+    def call_lines(self):
+        return [n for n in (self.phone_primary, self.phone_secondary, self.phone_tertiary) if n]
 
     @property
     def social_links(self):
@@ -73,6 +94,7 @@ class SiteSettings(SingletonModel):
             ("YouTube", self.youtube_url),
             ("TikTok", self.tiktok_url),
             ("LinkedIn", self.linkedin_url),
+            ("WhatsApp channel", self.whatsapp_channel_url),
         ]
         return [(name, url) for name, url in links if url]
 

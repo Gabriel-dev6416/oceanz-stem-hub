@@ -1,15 +1,9 @@
 /* OCEANZ STEM HUB design system (SRS section 8). */
 
 @font-face {
-  font-family: "Rubik";
-  src: url("../fonts/rubik-latin-wght-normal.woff2") format("woff2");
-  font-weight: 300 900;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Inter";
-  src: url("../fonts/inter-latin-wght-normal.woff2") format("woff2");
-  font-weight: 100 900;
+  font-family: "Manrope";
+  src: url("../fonts/manrope-latin-wght-normal.woff2") format("woff2");
+  font-weight: 200 800;
   font-display: swap;
 }
 @font-face {
@@ -41,11 +35,14 @@
   --link: var(--ocean);
   --heading: var(--royal);
 
-  --font-heading: "Rubik", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  --whatsapp: #128c4b;
+  --whatsapp-deep: #0e7a40;
+
+  --font-heading: "Manrope", Arial, sans-serif;
+  --font-body: "Manrope", Arial, sans-serif;
   --font-code: "JetBrains Mono", ui-monospace, monospace;
 
-  --radius: 14px;
+  --radius: 16px;
   --shadow: 0 10px 30px rgb(4 26 185 / 0.12);
   --container: 1200px;
   --gutter: 16px;
@@ -116,7 +113,7 @@ h1 {
 }
 h2 {
   font-size: clamp(1.6rem, 4vw, 2.4rem);
-  font-weight: 700;
+  font-weight: 800;
 }
 p {
   margin: 0 0 1em;
@@ -202,6 +199,13 @@ svg {
 .btn-accent:hover {
   background: var(--orange-deep);
 }
+.btn-whatsapp {
+  background: var(--whatsapp);
+  color: #fff;
+}
+.btn-whatsapp:hover {
+  background: var(--whatsapp-deep);
+}
 .btn-outline-light {
   border-color: rgb(255 255 255 / 0.7);
   color: #fff;
@@ -211,7 +215,7 @@ svg {
   background: rgb(0 189 249 / 0.12);
 }
 
-/* ---------- Header ---------- */
+/* ---------- Header (FR-WEB-17) ---------- */
 .site-header {
   position: sticky;
   top: 0;
@@ -225,20 +229,42 @@ svg {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem 1rem;
-  min-height: 68px;
+  min-height: 72px;
 }
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   margin-right: auto;
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   letter-spacing: 0.02em;
   color: #fff;
   text-decoration: none;
   white-space: nowrap;
 }
-.brand span {
+.brand img {
+  display: block;
+  width: auto;
+  height: 48px;
+}
+.brand-name span {
   color: var(--cyan);
+}
+@media (max-width: 480px) {
+  .brand-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+.site-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 .site-nav ul {
   display: flex;
@@ -253,6 +279,7 @@ svg {
   min-height: 44px;
   padding: 0 0.85rem;
   color: #fff;
+  font-weight: 600;
   text-decoration: none;
   border-radius: 8px;
 }
@@ -260,37 +287,46 @@ svg {
 .site-nav a[aria-current="page"] {
   background: rgb(255 255 255 / 0.1);
 }
-.site-menu {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
 .btn-small {
   min-height: 44px;
   padding: 0.5rem 1.1rem;
   font-size: 0.95rem;
 }
-.theme-toggle,
+.theme-switch {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid rgb(255 255 255 / 0.25);
+  border-radius: 999px;
+}
+.theme-switch button,
 .menu-toggle {
   display: inline-grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid rgb(255 255 255 / 0.3);
+  width: 40px;
+  height: 40px;
+  border: 0;
   border-radius: 50%;
   background: transparent;
-  color: #fff;
+  color: #cfd9ec;
   cursor: pointer;
 }
-.theme-toggle svg,
+.theme-switch button[aria-pressed="true"] {
+  background: rgb(255 255 255 / 0.16);
+  color: #fff;
+}
+.theme-switch svg,
 .menu-toggle svg {
   width: 20px;
   height: 20px;
 }
 .menu-toggle {
   display: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  color: #fff;
 }
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .js .menu-toggle {
     display: inline-grid;
   }
@@ -307,20 +343,8 @@ svg {
   .site-nav ul {
     flex-direction: column;
   }
-}
-.theme-toggle .icon-sun,
-:root[data-theme="dark"] .theme-toggle .icon-moon {
-  display: none;
-}
-:root[data-theme="dark"] .theme-toggle .icon-sun {
-  display: block;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .icon-moon {
-    display: none;
-  }
-  :root:not([data-theme="light"]) .theme-toggle .icon-sun {
-    display: block;
+  .theme-switch {
+    align-self: flex-start;
   }
 }
 
@@ -521,13 +545,17 @@ svg {
   font-size: 0.85rem;
   color: var(--muted);
 }
-.map {
-  display: block;
-  width: 100%;
+.map-frame {
   height: 360px;
   margin-top: 1.5rem;
-  border: 0;
+  overflow: hidden;
   border-radius: var(--radius);
+}
+.map-frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 .reference {
   font-family: var(--font-code);
@@ -570,12 +598,12 @@ svg {
   background: var(--ocean);
 }
 
-/* ---------- Footer ---------- */
+/* ---------- Footer (FR-WEB-20) ---------- */
 .site-footer {
   margin-top: auto;
   background: var(--navy);
   color: #cfd9ec;
-  padding-block: 3rem 6rem;
+  padding-block: 3rem 2rem;
   font-size: 0.95rem;
 }
 .site-footer a {
@@ -587,8 +615,18 @@ svg {
 }
 @media (min-width: 769px) {
   .footer-grid {
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1.6fr 1fr 1.3fr 1fr;
   }
+}
+.footer-brand img {
+  display: block;
+  width: auto;
+  height: 56px;
+  margin-bottom: 1rem;
+}
+.footer-brand .brand-line {
+  font-weight: 600;
+  color: #fff;
 }
 .site-footer h2 {
   font-size: 1.05rem;
@@ -607,13 +645,24 @@ svg {
   white-space: nowrap;
 }
 .footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
   margin-top: 2.5rem;
   padding-top: 1.25rem;
   border-top: 1px solid rgb(255 255 255 / 0.12);
   font-size: 0.85rem;
 }
+.c3-words {
+  margin: 0;
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 
-/* ---------- Floating contact (FR-WEB-10) ---------- */
+/* ---------- Floating contact (FR-WEB-10) and phone bar (FR-WEB-17) ---------- */
 .contact-float {
   position: fixed;
   right: var(--gutter);
@@ -640,32 +689,57 @@ svg {
   width: 26px;
   height: 26px;
 }
-.contact-float .float-whatsapp {
-  background: #128c4b;
+.float-whatsapp {
+  background: var(--whatsapp);
 }
-.contact-float .float-call {
+.float-call {
   background: var(--royal);
 }
-.float-enrol {
+.phone-bar {
   display: none;
 }
 @media (max-width: 768px) {
-  .float-enrol {
+  .contact-float {
+    display: none;
+  }
+  body {
+    padding-bottom: 72px;
+  }
+  .phone-bar {
     position: fixed;
-    left: var(--gutter);
-    bottom: var(--gutter);
+    inset: auto 0 0;
     z-index: 60;
-    display: inline-flex;
-    align-items: center;
-    min-height: 48px;
-    padding: 0 1.4rem;
-    border-radius: 999px;
-    background: var(--orange);
-    color: var(--ink);
-    font-family: var(--font-heading);
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: var(--shadow);
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.6rem var(--gutter) calc(0.6rem + env(safe-area-inset-bottom));
+    background: var(--navy);
+    border-top: 1px solid rgb(0 189 249 / 0.25);
+  }
+  .phone-bar .btn {
+    flex: 1;
+    padding-inline: 0.75rem;
+  }
+  .phone-bar .btn-call {
+    flex: none;
+    width: 48px;
+    padding: 0;
+    background: var(--royal);
+    color: #fff;
+  }
+}
+
+/* ---------- Skeleton loading (NFR-22) ---------- */
+.skeleton {
+  background: linear-gradient(100deg, var(--surface) 30%, var(--border) 50%, var(--surface) 70%);
+  background-size: 300% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
   }
 }
 

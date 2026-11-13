@@ -1,7 +1,8 @@
-# OCEANZ STEM HUB - Decisions on top of SRS v3.1
+# OCEANZ STEM HUB - Decisions on top of the SRS
 
-These decisions were agreed with the Project Owner on 12 November 2026 after the review of
-SRS v3.1. Where they differ from the SRS, this file takes precedence until the SRS is reissued.
+The baseline is **SRS v3.3 (13 November 2026)**. These decisions were agreed with the Project
+Owner during development. Where a decision still adds to or differs from v3.3, this file takes
+precedence; decisions that v3.3 now contains or replaced are marked as such.
 
 ## Curriculum basis
 
@@ -10,13 +11,13 @@ All class, subject and topic seed data follows the standard Nigerian school curr
 SS 1-3), mapped to Common Entrance, BECE, WAEC, NECO and JAMB. Seed data stays editable by the
 Admin from the back-office.
 
-## D-01 Curriculum explorer in R1
+## D-01 Curriculum explorer in R1 (still applies)
 
 FR-ENG-01 ships in R1. A simple curriculum topics table (class, subject, term, week, topic,
 learning objectives) is built in R1 and edited by the Admin. R3 extends the same table with
 syllabus mapping, teacher proposals and the curriculum tracker (FR-ACD-05, FR-PRG-05).
 
-## D-02 Free trial button before R3
+## D-02 Free trial button before R3 (now in v3.3, FR-ENG-02)
 
 Until trial booking (FR-ENG-02) ships in R3, every "Book a Free Trial Class" button opens the
 enquiry form with the enquiry type "Free trial class" pre-selected, with WhatsApp beside it.
@@ -28,11 +29,11 @@ R3 replaces the target with the booking flow; the buttons themselves do not chan
 "Built at OCEANZ" showcase render only when the Admin has published at least one real item.
 No placeholder content is ever shown.
 
-## D-04 Weekly report moves to Monday
+## D-04 Weekly report day (withdrawn 13 November 2026)
 
-The weekly quiz window stays Friday 08:00 to Sunday 20:00. The weekly progress report
-(FR-PRG-03) is generated on Monday at 08:00 (configurable) and covers the previous Monday to
-Sunday, so it always includes that week's quiz. The home challenge is sent with it.
+Withdrawn by the Project Owner: the weekly report goes out on Friday as in v3.3 FR-PRG-03
+(configurable). It shows the previous week's quiz, because the current week's quiz is open from
+Friday 08:00 to Sunday 20:00.
 
 ## D-05 Strict exam mode grace period
 
@@ -57,15 +58,15 @@ group needs a recorded reason. Curriculum topics and weekly quizzes are set per 
 For each guardian and term, enrolments are ordered by fee, highest first. The highest pays
 full price; the sibling discount (default 10%) applies to every other enrolment.
 
-## D-09 Senior Secondary Commercial stream
+## D-09 Senior Secondary Commercial stream (withdrawn 13 November 2026)
 
-Senior Secondary gets a third stream, Commercial, alongside Science and Art, as in the Nigerian
-SS curriculum. Seed classes: SS 1-3 Commercial. Subjects offered by OCEANZ: Mathematics and
-Coding/Digital Technologies (with emphasis on spreadsheets, data and digital business tools).
+Withdrawn by the Project Owner: Senior Secondary has two streams, Science and Art, as in v3.3.
+The Admin can add a stream later from the back-office if needed.
 
 ## D-10 On-site drop-off and pick-up
 
-New requirement FR-SAF-08 (Must, R3): for on-site sessions with minors, the guardian registers
+New requirement FR-SAF-09 (Must, R3; v3.3 uses FR-SAF-08 for home lessons): for on-site
+sessions with minors, the guardian registers
 approved pick-up persons. Drop-off is recorded on the register; at pick-up the collecting
 adult gives the guardian's pick-up PIN, which is checked and logged. A failed check alerts the
 Safeguarding Lead and the guardian.
@@ -86,7 +87,7 @@ and rules need a separate Owner decision before design.
   Docker image, so the application is deployed to Render as a Docker image.
 - A monthly running-cost budget (Render, Zoom licences, Bunny, email, SMS, AI) is agreed in R0.
 
-## D-13 Corrections
+## D-13 Corrections (now in v3.3)
 
 - FR-PRG-03: "topics covered topics for next week" reads "topics covered and topics for next
   week".
@@ -97,11 +98,13 @@ Until the branded staff back-office (/staff/) and the Admin and staff roles arri
 owner edits site settings and homepage content in the Django admin at the private admin path.
 R2 moves this editing into /staff/ and limits the Django admin to Super Admins (FR-ADM-01).
 
-## D-15 Logo
+## D-15 Logo (updated for v3.3)
 
-The header shows the text wordmark "OCEANZ STEM HUB" until the official logo file is supplied.
+The header and footer use the interim ~R logo mark from SRS v3.3 Section 8.2 (transparent,
+served as an 8.5 KB WebP with a PNG fallback), beside the "OCEANZ STEM HUB" name. It is replaced
+when the original high-resolution transparent file is supplied (v3.3 Appendix B item 19).
 
-## D-16 SRS review fixes (12 November 2026)
+## D-16 SRS review fixes (12 November 2026; all now in v3.3)
 
 1. **Class place, not "group".** Parents buy a Class place or Private tutoring; small groups sit
    inside a class. FR-PAY-01, FR-PVT-09, FR-WEB-05 and the Section 17 enrolment scenario read
@@ -134,3 +137,24 @@ then the form has no upload, so no visitor file is ever stored insecurely.
 Until Celery arrives (R2), the acknowledgement, staff notification and back-office replies are
 sent directly by the web request. A failed send is logged and never loses the enquiry. R2 moves
 all email to background jobs with retries and delivery logs (FR-NTF-04).
+
+## D-19 Moving to SRS v3.3 (13 November 2026)
+
+Corrections made to the work already built:
+
+- Font: Manrope (headings 800, body 400-600) replaces Rubik and Inter; JetBrains Mono stays.
+- Navigation bar (FR-WEB-17): logo to Home, Light/Dark/System theme switcher, Enrol Now; the
+  menu collapses below 1200 px; on phones a bar with Enrol Now, WhatsApp and Call stays fixed at
+  the bottom. Menu items appear as their pages are built (Contact now; Programmes, Pricing,
+  About, Teach with us and Log in later).
+- Footer (FR-WEB-20): logo and brand line, quick links, contacts, social links shown only when
+  filled in (including a WhatsApp channel), the C³ words and copyright.
+- Contacts: one WhatsApp number, three call lines, hub address #5 Gunning Rd, Abakaliki.
+- Colours: WhatsApp buttons are WhatsApp green; Sunrise Orange is kept for the main action.
+- Enquiry form: Primary 1-6 listed separately, SS Science and Art only, home lessons as a
+  delivery format, country of residence, and five ways in (enrol, free trial, private tutoring
+  quote, tertiary package, family abroad). Families abroad are saved as international enquiries,
+  because their fees are quoted (FR-PAY-13). Contact topics follow FR-COM-01.
+- Loading: the site is server-rendered, so pages arrive complete. Skeleton placeholders
+  (NFR-22) are used for parts that load afterwards: the map now, and photos, the carousel and
+  dashboard panels as they are added.

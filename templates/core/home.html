@@ -10,7 +10,7 @@
     <div class="hero-actions">
       <a class="btn btn-accent" href="{% url 'messaging:enquire' %}">Enrol Your Child</a>
       <a class="btn btn-outline-light" href="{% url 'messaging:enquire' %}?interest=trial">Book a Free Trial Class</a>
-      <a class="btn btn-outline-light" href="{% whatsapp_link site_settings.whatsapp_primary page_title %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}WhatsApp</a>
+      <a class="btn btn-whatsapp" href="{% whatsapp_link site_settings.whatsapp page_title %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}WhatsApp</a>
     </div>
   </div>
   {% include "icons/wave.html" %}

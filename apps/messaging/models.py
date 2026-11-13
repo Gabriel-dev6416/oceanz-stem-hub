@@ -11,17 +11,12 @@ visitor_phone_validator = RegexValidator(
     "Enter a phone number, for example 0706 457 9661 or +234 706 457 9661.",
 )
 
-# Classes from the Nigerian school system (SRS 3.1, decision D-09). R2 replaces this list with
-# the Admin-managed classes.
+# Classes from the Nigerian school system (SRS 3.1). Primary 1-3 are listed separately for
+# parents and form the Junior Primary class. R2 replaces this list with the Admin-managed classes.
 CLASS_CHOICES = [
     (
         "Primary",
-        [
-            ("junior-primary", "Junior Primary (Primary 1-3)"),
-            ("primary-4", "Primary 4"),
-            ("primary-5", "Primary 5"),
-            ("primary-6", "Primary 6"),
-        ],
+        [(f"primary-{year}", f"Primary {year}") for year in range(1, 7)],
     ),
     (
         "Secondary",
@@ -31,16 +26,13 @@ CLASS_CHOICES = [
             ("jss-3", "JSS 3"),
             ("ss-1-science", "SS 1 Science"),
             ("ss-1-art", "SS 1 Art"),
-            ("ss-1-commercial", "SS 1 Commercial"),
             ("ss-2-science", "SS 2 Science"),
             ("ss-2-art", "SS 2 Art"),
-            ("ss-2-commercial", "SS 2 Commercial"),
             ("ss-3-science", "SS 3 Science"),
             ("ss-3-art", "SS 3 Art"),
-            ("ss-3-commercial", "SS 3 Commercial"),
         ],
     ),
-    ("Tertiary", [("tertiary", "Tertiary programme")]),
+    ("Tertiary", [("tertiary", "Tertiary package")]),
 ]
 CLASS_LEVELS = {value: level for level, options in CLASS_CHOICES for value, _ in options}
 
@@ -57,9 +49,11 @@ class Enquiry(models.Model):
         ENROLMENT = "enrolment", "Enrolment"
         FREE_TRIAL = "free-trial", "Free trial class"
         PRIVATE_TUTORING = "private-tutoring", "Private tutoring"
-        TERTIARY = "tertiary", "Tertiary programmes"
-        HOLIDAY = "holiday", "Holiday programmes"
+        TERTIARY = "tertiary", "Tertiary packages"
+        HOLIDAY = "holiday", "Holiday Tuition"
+        INTERNATIONAL = "international", "International families"
         FEES = "fees", "Fees and payments"
+        TEACH = "teach", "Teach with us"
         TECHNICAL = "technical", "Technical support"
         PARTNERSHIP = "partnership", "Partnership"
         OTHER = "other", "Other"
@@ -73,12 +67,13 @@ class Enquiry(models.Model):
 
     class TutoringOption(models.TextChoices):
         CLASS = "class", "Class place (with a small group of 6-12)"
-        PRIVATE = "private", "Private (one-on-one)"
+        PRIVATE = "private", "Private (one-on-one, priced by quote)"
 
     class DeliveryFormat(models.TextChoices):
         ONLINE = "online", "Online"
         ON_SITE = "on-site", "On-site at the hub"
         HYBRID = "hybrid", "Hybrid (online weekdays, on-site Saturdays)"
+        HOME = "home", "Home lessons (after school and weekends, Abakaliki area)"
 
     reference = models.CharField(max_length=13, unique=True, editable=False)
     enquiry_type = models.CharField(max_length=20, choices=Type.choices)
@@ -88,6 +83,7 @@ class Enquiry(models.Model):
     whatsapp = models.CharField(
         "WhatsApp number", max_length=24, blank=True, validators=[visitor_phone_validator]
     )
+    country = models.CharField("country of residence", max_length=60, blank=True)
     child_class = models.CharField(
         "child's class", max_length=20, blank=True, choices=CLASS_CHOICES
     )

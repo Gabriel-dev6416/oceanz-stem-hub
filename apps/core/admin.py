@@ -15,17 +15,10 @@ class SingletonAdmin(admin.ModelAdmin):
 class SiteSettingsAdmin(SingletonAdmin):
     fieldsets = (
         (
-            "WhatsApp and phone",
-            {
-                "fields": (
-                    "whatsapp_primary",
-                    "whatsapp_secondary",
-                    "phone_primary",
-                    "phone_secondary",
-                )
-            },
+            "WhatsApp and call lines",
+            {"fields": ("whatsapp", "phone_primary", "phone_secondary", "phone_tertiary")},
         ),
-        ("Email and hub", {"fields": ("email", "address", "office_hours")}),
+        ("Email and hub", {"fields": ("email", "address", "office_hours", "brand_line")}),
         (
             "Social media",
             {
@@ -36,6 +29,7 @@ class SiteSettingsAdmin(SingletonAdmin):
                     "youtube_url",
                     "tiktok_url",
                     "linkedin_url",
+                    "whatsapp_channel_url",
                 )
             },
         ),

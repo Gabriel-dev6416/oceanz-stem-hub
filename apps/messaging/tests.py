@@ -28,6 +28,7 @@ ENROLMENT = {
     "name": "Ada Obi",
     "phone": "0706 457 9661",
     "email": "ada@example.com",
+    "country": "Nigeria",
     "child_class": "jss-2",
     "tutoring_option": "class",
     "delivery_format": "hybrid",
@@ -40,7 +41,7 @@ CONTACT = {
     "name": "Chidi Eze",
     "email": "chidi@example.com",
     "phone": "+234 803 000 0000",
-    "enquiry_type": "tertiary",
+    "enquiry_type": "teach",
     "message": "When does the next Web Development cohort start?",
     "consent": "on",
     turnstile.RESPONSE_FIELD: DUMMY_TOKEN,
@@ -52,15 +53,54 @@ def test_enquiry_page_shows_form_and_turnstile(client):
     html = client.get(reverse("messaging:enquire")).content.decode()
 
     assert 'data-sitekey="1x00000000000000000000AA"' in html
-    assert "SS 1 Commercial" in html
+    assert "Primary 1" in html
+    assert "SS 1 Art" in html
+    assert "Commercial" not in html
+    assert "Home lessons" in html
     assert re.search(r'value="enrolment"[^>]*checked', html)
 
 
 @pytest.mark.django_db
-def test_free_trial_link_preselects_trial(client):
-    html = client.get(reverse("messaging:enquire") + "?interest=trial").content.decode()
+@pytest.mark.parametrize(
+    "link, value",
+    [
+        ("trial", "free-trial"),
+        ("private", "private-tutoring"),
+        ("tertiary", "tertiary"),
+        ("international", "international"),
+    ],
+)
+def test_interest_links_preselect_the_enquiry_type(client, link, value):
+    html = client.get(reverse("messaging:enquire") + f"?interest={link}").content.decode()
 
-    assert re.search(r'value="free-trial"[^>]*checked', html)
+    assert re.search(rf'value="{value}"[^>]*checked', html)
+
+
+@pytest.mark.django_db
+def test_family_abroad_is_saved_as_international(client):
+    client.post(
+        reverse("messaging:enquire"),
+        {**ENROLMENT, "country": "United Kingdom", "delivery_format": "online"},
+    )
+
+    assert Enquiry.objects.get().enquiry_type == Enquiry.Type.INTERNATIONAL
+
+
+@pytest.mark.django_db
+def test_international_interest_needs_a_country_outside_nigeria(client):
+    response = client.post(reverse("messaging:enquire"), {**ENROLMENT, "interest": "international"})
+
+    assert "country" in response.context["form"].errors
+    assert not Enquiry.objects.exists()
+
+
+@pytest.mark.django_db
+def test_home_lessons_enquiry(client):
+    client.post(reverse("messaging:enquire"), {**ENROLMENT, "delivery_format": "home"})
+
+    enquiry = Enquiry.objects.get()
+    assert enquiry.delivery_format == Enquiry.DeliveryFormat.HOME
+    assert "Home lessons" in mail.outbox[0].body
 
 
 @pytest.mark.django_db
@@ -137,7 +177,7 @@ def test_contact_form_saves_chosen_topic(client):
 
     assert response.status_code == 302
     enquiry = Enquiry.objects.get()
-    assert enquiry.enquiry_type == Enquiry.Type.TERTIARY
+    assert enquiry.enquiry_type == Enquiry.Type.TEACH
     assert enquiry.message.startswith("When does")
     assert len(mail.outbox) == 2
 
@@ -170,15 +210,18 @@ def test_received_page_without_enquiry_redirects_home(client):
 
 
 @pytest.mark.django_db
-def test_contact_page_shows_map_only_with_address(client):
-    assert "google.com/maps" not in client.get(reverse("messaging:contact")).content.decode()
+def test_contact_page_map_follows_the_hub_address(client):
+    html = client.get(reverse("messaging:contact")).content.decode()
+    assert (
+        "https://www.google.com/maps?q=%235%20Gunning%20Rd%2C%20Abakaliki%2C%20Ebonyi%20State"
+        "%2C%20Nigeria&amp;output=embed"
+    ) in html
 
     site = SiteSettings.load()
-    site.address = "12 Marina Road, Lagos"
+    site.address = ""
     site.save()
-    html = client.get(reverse("messaging:contact")).content.decode()
 
-    assert "https://www.google.com/maps?q=12%20Marina%20Road%2C%20Lagos&amp;output=embed" in html
+    assert "google.com/maps" not in client.get(reverse("messaging:contact")).content.decode()
 
 
 @pytest.mark.django_db

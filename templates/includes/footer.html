@@ -2,20 +2,27 @@
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
-      <div>
-        <h2>OCEANZ STEM HUB</h2>
+      <div class="footer-brand">
+        {% include "includes/logo.html" with alt="OCEANZ STEM HUB" %}
+        <p class="brand-line">{{ site_settings.brand_line }}</p>
         <p>STEM Education / M.S.C: Mathematics, Science and Coding/Digital Technologies for Primary, Secondary and Tertiary learners in Nigeria and abroad.</p>
+      </div>
+      <div>
+        <h2>Quick links</h2>
+        <ul class="footer-list">
+          <li><a href="{% url 'messaging:enquire' %}">Enrol Now</a></li>
+          <li><a href="{% url 'messaging:enquire' %}?interest=trial">Book a free trial class</a></li>
+          <li><a href="{% url 'messaging:contact' %}">Contact</a></li>
+        </ul>
       </div>
       <div>
         <h2>Contact</h2>
         <ul class="footer-list">
-          <li>WhatsApp: <a href="{% whatsapp_link site_settings.whatsapp_primary page_title %}" rel="noopener" target="_blank">{{ site_settings.whatsapp_primary }}</a></li>
-          {% if site_settings.whatsapp_secondary %}<li>WhatsApp: <a href="{% whatsapp_link site_settings.whatsapp_secondary page_title %}" rel="noopener" target="_blank">{{ site_settings.whatsapp_secondary }}</a></li>{% endif %}
-          <li>Call: <a href="{{ site_settings.phone_primary|tel_link }}">{{ site_settings.phone_primary }}</a></li>
-          {% if site_settings.phone_secondary %}<li>Call: <a href="{{ site_settings.phone_secondary|tel_link }}">{{ site_settings.phone_secondary }}</a></li>{% endif %}
+          <li>WhatsApp: <a href="{% whatsapp_link site_settings.whatsapp page_title %}" rel="noopener" target="_blank">{{ site_settings.whatsapp }}</a></li>
+          {% for line in site_settings.call_lines %}<li>Call: <a href="{{ line|tel_link }}">{{ line }}</a></li>{% endfor %}
           <li>Email: <a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></li>
-          {% if site_settings.office_hours %}<li>{{ site_settings.office_hours }}</li>{% endif %}
           {% if site_settings.address %}<li>{{ site_settings.address|linebreaksbr }}</li>{% endif %}
+          {% if site_settings.office_hours %}<li>{{ site_settings.office_hours }}</li>{% endif %}
         </ul>
       </div>
       {% if site_settings.social_links %}
@@ -27,6 +34,9 @@
       </div>
       {% endif %}
     </div>
-    <p class="footer-bottom">&copy; {% now "Y" %} OCEANZ STEM HUB. All rights reserved.</p>
+    <div class="footer-bottom">
+      <p class="c3-words">Consistency &middot; Competence &middot; Character</p>
+      <p>&copy; {% now "Y" %} OCEANZ STEM HUB. All rights reserved.</p>
+    </div>
   </div>
 </footer>

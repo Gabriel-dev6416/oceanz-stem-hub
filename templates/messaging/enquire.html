@@ -14,7 +14,7 @@
     <aside class="card aside-card">
       <h2>Prefer to chat?</h2>
       <p>Our team is on WhatsApp and can answer questions about classes, fees and timetables.</p>
-      <a class="btn btn-accent" href="{% whatsapp_link site_settings.whatsapp_primary page_title %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}Chat on WhatsApp</a>
+      <a class="btn btn-whatsapp" href="{% whatsapp_link site_settings.whatsapp page_title %}" rel="noopener" target="_blank">{% include "icons/chat.html" %}Chat on WhatsApp</a>
       <p class="aside-note">Or call <a href="{{ site_settings.phone_primary|tel_link }}">{{ site_settings.phone_primary }}</a></p>
     </aside>
   </div>

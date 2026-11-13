@@ -53,7 +53,7 @@ def home(request):
 
 def server_error(request):
     """500 page rendered without the database or context processors, which may be the fault."""
-    number = SiteSettings._meta.get_field("whatsapp_primary").default
+    number = SiteSettings._meta.get_field("whatsapp").default
     return HttpResponseServerError(
         loader.get_template("500.html").render({"whatsapp_number": number})
     )

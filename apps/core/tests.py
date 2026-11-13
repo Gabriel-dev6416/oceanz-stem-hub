@@ -32,13 +32,45 @@ def test_home_shows_hero_and_contacts_from_settings(client):
     assert "https://wa.me/2347064579661?text=" in html
     assert 'href="tel:+2347064579661"' in html
     assert "oceanzstemhub@gmail.com" in html
+    for line in ("tel:+2347055260308", "tel:+2349028353019"):
+        assert line in html
+    assert "#5 Gunning Rd, Abakaliki, Ebonyi State, Nigeria" in html
+
+
+@pytest.mark.django_db
+def test_layout_follows_srs_v3_3(client):
+    html = client.get(reverse("core:home")).content.decode()
+
+    assert "img/oceanz-mark.webp" in html
+    assert "fonts/manrope-latin-wght-normal.woff2" in html
+    for choice in ("light", "dark", "system"):
+        assert f'data-theme-choice="{choice}"' in html
+    assert 'class="phone-bar"' in html
+    assert "We don&#x27;t just raise learners" in html
+    assert "Consistency &middot; Competence &middot; Character" in html
+
+
+@pytest.mark.django_db
+def test_footer_shows_only_filled_social_links(client):
+    html = client.get(reverse("core:home")).content.decode()
+    assert "Follow us" not in html
+
+    site = SiteSettings.load()
+    site.instagram_url = "https://instagram.com/oceanzstemhub"
+    site.whatsapp_channel_url = "https://whatsapp.com/channel/oceanz"
+    site.save()
+    html = client.get(reverse("core:home")).content.decode()
+
+    assert 'href="https://instagram.com/oceanzstemhub"' in html
+    assert ">WhatsApp channel<" in html
+    assert ">Facebook<" not in html
 
 
 @pytest.mark.django_db
 def test_editing_site_settings_updates_pages(client):
     client.get(reverse("core:home"))  # warm the cache
     settings_row = SiteSettings.load()
-    settings_row.whatsapp_primary = "+234 800 000 0001"
+    settings_row.whatsapp = "+234 800 000 0001"
     settings_row.address = "OCEANZ Hub, Lagos"
     settings_row.save()
 

@@ -14,10 +14,8 @@
     <aside class="card aside-card">
       <h2>Reach us directly</h2>
       <ul class="contact-list">
-        <li><span>WhatsApp</span><a href="{% whatsapp_link site_settings.whatsapp_primary page_title %}" rel="noopener" target="_blank">{{ site_settings.whatsapp_primary }}</a></li>
-        {% if site_settings.whatsapp_secondary %}<li><span>WhatsApp</span><a href="{% whatsapp_link site_settings.whatsapp_secondary page_title %}" rel="noopener" target="_blank">{{ site_settings.whatsapp_secondary }}</a></li>{% endif %}
-        <li><span>Phone</span><a href="{{ site_settings.phone_primary|tel_link }}">{{ site_settings.phone_primary }}</a></li>
-        {% if site_settings.phone_secondary %}<li><span>Phone</span><a href="{{ site_settings.phone_secondary|tel_link }}">{{ site_settings.phone_secondary }}</a></li>{% endif %}
+        <li><span>WhatsApp</span><a href="{% whatsapp_link site_settings.whatsapp page_title %}" rel="noopener" target="_blank">{{ site_settings.whatsapp }}</a></li>
+        {% for line in site_settings.call_lines %}<li><span>Call</span><a href="{{ line|tel_link }}">{{ line }}</a></li>{% endfor %}
         <li><span>Email</span><a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></li>
         {% if site_settings.office_hours %}<li><span>Office hours</span>{{ site_settings.office_hours }}</li>{% endif %}
         {% if site_settings.address %}<li><span>Hub address</span>{{ site_settings.address|linebreaksbr }}</li>{% endif %}
@@ -31,7 +29,9 @@
     </aside>
   </div>
   {% if site_settings.address %}
-  <iframe class="map" title="Map showing the OCEANZ STEM HUB location" src="https://www.google.com/maps?q={{ site_settings.address|urlencode }}&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  <div class="map-frame skeleton">
+    <iframe title="Map showing the OCEANZ STEM HUB location" src="https://www.google.com/maps?q={{ site_settings.address|urlencode }}&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
   {% endif %}
 </section>
 {% endblock %}

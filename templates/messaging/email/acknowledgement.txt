@@ -8,7 +8,7 @@ Topic: {{ enquiry.get_enquiry_type_display }}
 {% endif %}{% if enquiry.tutoring_option %}Tutoring option: {{ enquiry.get_tutoring_option_display }}
 {% endif %}{% if enquiry.delivery_format %}Delivery format: {{ enquiry.get_delivery_format_display }}
 {% endif %}
-Please quote the reference if you contact us about this enquiry. For a faster answer, chat with us on WhatsApp: {{ site.whatsapp_primary }}.
+Please quote the reference if you contact us about this enquiry. For a faster answer, chat with us on WhatsApp: {{ site.whatsapp }}.
 
 OCEANZ STEM HUB
 STEM Education / M.S.C

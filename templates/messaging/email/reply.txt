@@ -5,5 +5,5 @@
 Reference: {{ enquiry.reference }}
 
 OCEANZ STEM HUB
-WhatsApp: {{ site.whatsapp_primary }}
+WhatsApp: {{ site.whatsapp }}
 {% endautoescape %}

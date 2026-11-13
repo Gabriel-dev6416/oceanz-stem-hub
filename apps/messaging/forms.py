@@ -5,6 +5,7 @@ from apps.core import turnstile
 
 from .models import Enquiry
 
+NIGERIA = "Nigeria"
 CONSENT_LABEL = "OCEANZ STEM HUB may contact me by phone, WhatsApp or email about this enquiry."
 
 
@@ -42,6 +43,9 @@ class EnrolmentEnquiryForm(TurnstileForm):
         choices=[
             (Enquiry.Type.ENROLMENT, "Enrol my child"),
             (Enquiry.Type.FREE_TRIAL, "Book a free trial class"),
+            (Enquiry.Type.PRIVATE_TUTORING, "Get a private tutoring quote"),
+            (Enquiry.Type.TERTIARY, "Ask about a tertiary package"),
+            (Enquiry.Type.INTERNATIONAL, "Enrol from outside Nigeria (international family)"),
         ],
         widget=forms.RadioSelect,
     )
@@ -55,6 +59,7 @@ class EnrolmentEnquiryForm(TurnstileForm):
             "phone",
             "whatsapp",
             "email",
+            "country",
             "child_class",
             "tutoring_option",
             "delivery_format",
@@ -76,16 +81,29 @@ class EnrolmentEnquiryForm(TurnstileForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for name in ("child_class", "tutoring_option", "delivery_format"):
+        for name in ("country", "child_class", "tutoring_option", "delivery_format"):
             self.fields[name].required = True
+        self.fields["country"].initial = NIGERIA
         self.fields["child_class"].choices = [("", "Select a class")] + [
             choice for choice in self.fields["child_class"].choices if choice[0]
         ]
         self.fields["tutoring_option"].choices = Enquiry.TutoringOption.choices
         self.fields["delivery_format"].choices = Enquiry.DeliveryFormat.choices
 
+    def clean(self):
+        cleaned_data = super().clean()
+        abroad = cleaned_data.get("country", NIGERIA).strip().lower() != NIGERIA.lower()
+        if cleaned_data.get("interest") == Enquiry.Type.INTERNATIONAL and not abroad:
+            self.add_error("country", "Enter the country you live in outside Nigeria.")
+        return cleaned_data
+
     def save(self, commit=True):
-        self.instance.enquiry_type = self.cleaned_data["interest"]
+        interest = self.cleaned_data["interest"]
+        abroad = self.cleaned_data["country"].strip().lower() != NIGERIA.lower()
+        if abroad and interest == Enquiry.Type.ENROLMENT:
+            # Families abroad are quoted by the Admin, never shown a price (FR-PAY-13).
+            interest = Enquiry.Type.INTERNATIONAL
+        self.instance.enquiry_type = interest
         return super().save(commit)
 
 
